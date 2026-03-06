@@ -1,0 +1,100 @@
+{% extends "players/base.html" %}
+
+{% block content %}
+
+<h2 class="title">🔥 Elite Auction Players Pool</h2>
+<p class="subtitle">
+  Verified & Registered Players Available For Live Auction
+</p>
+
+<!-- 🔧 Maintenance Mode Banner -->
+{% if settings_obj and settings_obj.maintenance_mode %}
+  <div class="maintenance-banner">
+      🚧 System Under Maintenance. Please check back later.
+  </div>
+{% endif %}
+
+<!-- ⏳ Countdown Before Auction Starts -->
+{% if settings_obj and not settings_obj.auction_enabled and settings_obj.auction_start_time %}
+  <div class="countdown-box">
+      🚀 Auction Starts At: {{ settings_obj.auction_start_time }}
+  </div>
+{% endif %}
+
+<div class="grid">
+
+  {% for player in players %}
+
+    {% if player.payment_status %}
+
+    <div class="card">
+
+      <!-- Player Photo -->
+      {% if player.photo %}
+        <img src="{{ player.photo.url }}" class="player-img">
+      {% else %}
+        <img src="https://via.placeholder.com/250x180?text=No+Image" class="player-img">
+      {% endif %}
+
+      <!-- Player Name -->
+      <h3 class="player-name">{{ player.name }}</h3>
+      <p class="player-id">Player ID: <b>{{ player.player_id }}</b></p>
+
+      <!-- Role Badge -->
+      {% if player.role %}
+        <span class="role-badge">{{ player.role }}</span>
+      {% endif %}
+
+      <!-- Details -->
+      <div class="player-details">
+        <p><b>City:</b> {{ player.city|default:"N/A" }}</p>
+        <p><b>Mobile:</b> {{ player.mobile|default:"N/A" }}</p>
+        <p><b>Playing Style:</b> {{ player.playing_style|default:"N/A" }}</p>
+        <p><b>Experience:</b> {{ player.experience|default:"N/A" }}</p>
+      </div>
+
+      <!-- Base Price -->
+      <p class="price">💰 Base Price: ₹{{ player.base_price }}</p>
+
+      <!-- Document -->
+      {% if player.document %}
+        <p>
+          📄 <a href="{{ player.document.url }}" target="_blank" class="doc-link">
+            View Verification Document
+          </a>
+        </p>
+      {% endif %}
+
+      <!-- Auction Status -->
+      {% if player.is_sold %}
+        <p class="sold">🏆 SOLD for ₹{{ player.sold_price }}</p>
+
+      {% else %}
+        <p class="available">🟢 Available For Auction</p>
+
+        {% if settings_obj and settings_obj.auction_enabled %}
+            <a href="{% url 'start_auction' player.id %}" class="auction-btn">
+                ▶ Start Auction
+            </a>
+        {% else %}
+            <div class="auction-disabled">
+                🚧 Auction Not Live Yet
+            </div>
+        {% endif %}
+
+      {% endif %}
+
+    </div>
+
+    {% endif %}
+
+  {% empty %}
+    <div class="empty-box">
+      <h3>No Paid Players Available Yet</h3>
+      <p>Once players complete registration payment, they will appear here.</p>
+    </div>
+  {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,1458 @@
+{% extends "players/base.html" %}
+{% load static %}
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+{% block content %}
+<!-- ================= SCOREBOARD : COMING SOON ================= -->
+<div class="scoreboard coming">
+  <span class="sb-icon">🏏</span>
+  <span class="sb-text">ECC Auction Edition 2</span>
+  <span class="soon-tag">COMING SOON</span>
+</div>
+
+
+<!-- ================= HERO ================= -->
+<div class="hero-wrap">
+
+  <!-- RIGHT SIDE GLOW LAYER -->
+  <div class="right-glow"></div>
+
+
+  <div class="hero">
+
+    <!-- LOGO -->
+    <div class="hero-logo">
+      <img src="{% static 'images/ecc-logo.png' %}" alt="ECC Logo">
+    </div>
+
+    <!-- TITLE -->
+    <h1 class="main-title">
+      ECC Elite Cricket Championship — Edition 2
+    </h1>
+
+    <!-- SUBTITLE -->
+    <p class="subtitle">
+      The Official ECC Digital Auction Platform.
+      Register players, dominate the bidding war,
+      and build your championship squad.
+    </p>
+
+    <!-- ACTION BUTTONS -->
+    <div class="hero-buttons">
+
+      <a href="/register/" class="btn btn-primary" onclick="startConfetti()">
+        Register Player
+      </a>
+
+     <a href="javascript:void(0);" class="btn btn-outline">
+    View Auction Pool
+</a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= AUCTION TICKER ================= -->
+<div class="ticker">
+  <div class="ticker-track">
+   🔥 ECC Elite Championship • 💥 Edition 2 • ⚡ Auction Coming Soon • 🏏 Get Ready for the Ultimate Battle
+
+  </div>
+</div>
+
+<section class="champion-section">
+
+  <div class="champion-banner">
+
+    <!-- Background Image -->
+    <img src="{% static 'images/champion1.png' %}" 
+         alt="ECC Edition 1 Champion" 
+         class="champion-bg">
+
+    <!-- Overlay Content -->
+    <div class="champion-overlay">
+
+      <span class="champion-badge">🏆 ECC Edition 1 Champion</span>
+
+      <div class="champion-team-wrapper">
+        <img src="{% static 'images/team5.png' %}"
+             class="champion-team-logo">
+
+        <h2 class="champion-team">Night Hawks</h2>
+      </div>
+
+      <p class="champion-desc">
+        Dominated the tournament with outstanding team performance,
+        strategic gameplay, and unmatched consistency throughout the season.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= TEAMS ================= -->
+<section class="teams-section">
+
+  <h2 class="section-title">🔥 Featured Teams</h2>
+  <p class="section-sub">Official Auction Franchises</p>
+
+  <div class="teams-grid">
+
+    <div class="team-card team-orange">
+      <div class="logo-box">
+        <img src="{% static 'images/team1.png' %}" class="team-logo">
+      </div>
+      <h3>Mahadev XI</h3>
+    </div>
+
+    <div class="team-card team-blue">
+      <div class="logo-box">
+        <img src="{% static 'images/team2.png' %}" class="team-logo">
+      </div>
+      <h3>RMJ Titans</h3>
+    </div>
+
+    <div class="team-card team-red">
+      <div class="logo-box">
+        <img src="{% static 'images/team3.png' %}" class="team-logo">
+      </div>
+      <h3>Spartan Warriors</h3>
+    </div>
+
+    <div class="team-card team-green">
+      <div class="logo-box">
+        <img src="{% static 'images/team4.png' %}" class="team-logo">
+      </div>
+      <h3>Garuda XI</h3>
+    </div>
+
+    <div class="team-card team-purple">
+      <div class="logo-box">
+        <img src="{% static 'images/team5.png' %}" class="team-logo">
+      </div>
+      <h3>Night Hawks</h3>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ================= TOP SOLD ================= -->
+<section class="sold-section">
+<h2 class="section-title">💰 Top Sold Players</h2>
+
+<div class="sold-grid">
+  <div class="sold-card">
+    <img src="{% static 'images/player1.jpg' %}">
+    <h4>Player A</h4>
+    <p>₹5.4L</p>
+  </div>
+
+  <div class="sold-card">
+    <img src="{% static 'images/player2.jpg' %}">
+    <h4>Player B</h4>
+    <p>₹4.8L</p>
+  </div>
+</div>
+</section>
+
+
+<section class="trophy-sec">
+
+  <img src="{% static 'images/trophy.png' %}" class="trophy-img">
+
+  <div class="trophy-card">
+
+    <h2 class="trophy-title">
+      🏆 Season Champion Trophy
+    </h2>
+
+    <p class="trophy-desc">
+      The ultimate symbol of glory.<br>
+      Winner takes the Trophy + Grand Prize Pool.
+    </p>
+
+  </div>
+
+</section>
+
+<!-- ================= PREMIUM RULES SECTION ================= -->
+
+<section class="rules-sec">
+
+  <div class="rules-container">
+
+    <h2 class="rules-title">
+      📘 How Auction Works
+    </h2>
+
+    <p class="rules-subtitle">
+      Follow these simple steps to participate in the ECC Elite Cricket Championship Auction.
+    </p>
+
+    <div class="rules-grid">
+
+      <div class="rule-card">
+        <div class="rule-icon">📝</div>
+        <h3>Register Players</h3>
+        <p>Add player details and make them eligible for the auction pool.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">📋</div>
+        <h3>Add to Auction Pool</h3>
+        <p>Players become available for franchises to bid and build squads.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">⚡</div>
+        <h3>Live Bidding</h3>
+        <p>Teams compete in real-time bidding to acquire players.</p>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-icon">🏆</div>
+        <h3>Highest Bid Wins</h3>
+        <p>The highest bidder secures the player in their team.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CONFETTI ================= -->
+<canvas id="confetti"></canvas>
+
+
+<script>
+function startConfetti(){
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = [];
+  for(let i=0;i<120;i++){
+    pieces.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      r: Math.random()*6+4,
+      c: `hsl(${Math.random()*360},100%,50%)`
+    });
+  }
+
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.fillStyle=p.c;
+      ctx.fillRect(p.x,p.y,p.r,p.r);
+      p.y+=4;
+      if(p.y>canvas.height) p.y=0;
+    });
+    if(t++<120) requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+
+<style>
+
+/* ================= GLOBAL CRICKET BACKGROUND ================= */
+
+body{
+  background:
+    radial-gradient(circle at 50% 8%, rgba(56,189,248,.18), transparent 35%),
+    linear-gradient(180deg,#020617,#020617,#000);
+  color:white;
+  font-family:system-ui,Segoe UI,Roboto,sans-serif;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(34,197,94,.06) 0px,
+      rgba(34,197,94,.06) 2px,
+      transparent 2px,
+      transparent 140px
+    );
+  opacity:.35;
+}
+
+/* ================= SCOREBOARD — COMING SOON ================= */
+
+.scoreboard.coming{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  flex-wrap:wrap;
+
+  background:linear-gradient(90deg,#0f172a,#111827,#0f172a);
+  border-top:3px solid #f59e0b;
+  border-bottom:3px solid #f59e0b;
+
+  padding:14px 10px;
+  font-weight:900;
+  letter-spacing:.8px;
+  text-align:center;
+
+  box-shadow:
+    0 0 24px rgba(245,158,11,.25),
+    inset 0 0 18px rgba(245,158,11,.15);
+
+  animation:sbPulse 2.4s ease-in-out infinite;
+}
+
+.sb-icon{
+  font-size:20px;
+  filter: drop-shadow(0 0 6px rgba(255,120,0,.6));
+}
+
+.sb-text{
+  font-size:18px;
+}
+
+.soon-tag{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:0 0 14px rgba(251,191,36,.55);
+  animation:tagBlink 1.6s ease-in-out infinite;
+}
+
+@keyframes sbPulse{
+  50%{box-shadow:
+      0 0 34px rgba(245,158,11,.45),
+      inset 0 0 24px rgba(245,158,11,.25);}
+}
+
+@keyframes tagBlink{
+  50%{opacity:.65;}
+}
+
+
+/* ================= (OPTIONAL) LIVE SCORE BAR — DISABLED STYLE ================= */
+/* Agar coming soon mode me score bar bhi dikhani hai to ye use karo */
+
+.score-bar{
+  background:linear-gradient(90deg,#334155,#475569);
+  text-align:center;
+  font-weight:800;
+  padding:8px;
+  opacity:.85;
+}
+
+.score-bar span{
+  background:#ef4444;
+  padding:3px 8px;
+  border-radius:6px;
+  margin-right:10px;
+}
+
+/* ================= HERO ================= */
+
+.hero-wrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:30px;
+  padding:80px 26px;
+  margin-top:24px;
+
+  background:
+    radial-gradient(circle at 50% 10%, rgba(56,189,248,.25), transparent 45%),
+    linear-gradient(180deg,#020617,#000);
+
+  box-shadow:
+    inset 0 0 140px rgba(56,189,248,.12),
+    0 0 80px rgba(0,0,0,.85);
+
+  border-left:3px solid rgba(249,115,22,.6);
+  border-right:3px solid rgba(56,189,248,.6);
+}
+
+/* MOVING STAR GRID */
+
+.hero-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: radial-gradient(#38bdf8 1px, transparent 1px);
+  background-size:24px 24px;
+  opacity:.08;
+  animation:moveStars 80s linear infinite;
+  z-index:1;
+}
+
+@keyframes moveStars{
+  to{ transform:translateY(-260px); }
+}
+
+/* LEFT LIGHT */
+
+.hero-wrap::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-150px;
+  width:420px;
+  height:100%;
+  pointer-events:none;
+  z-index:2;
+
+  background:radial-gradient(
+    circle at left center,
+    rgba(249,115,22,.45),
+    transparent 70%
+  );
+
+  filter:blur(100px);
+}
+
+/* RIGHT LIGHT */
+
+.hero-wrap .right-glow{
+  position:absolute;
+  top:0;
+  right:-150px;
+  width:420px;
+  height:100%;
+  pointer-events:none;
+  z-index:2;
+
+  background:radial-gradient(
+    circle at right center,
+    rgba(56,189,248,.45),
+    transparent 70%
+  );
+
+  filter:blur(100px);
+}
+
+/* HERO CONTENT */
+
+.hero{
+  position:relative;
+  z-index:5;
+  text-align:center;
+  padding:40px 20px;
+
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
+
+/* ================= ULTRA PREMIUM FLOATING LOGO ================= */
+
+.hero-logo{
+  position:relative;
+  display:inline-block;
+  animation:logoFloat 6s ease-in-out infinite;
+}
+
+/* GLOW AURA */
+
+.hero-logo::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  border-radius:50%;
+
+  background:radial-gradient(circle,
+    rgba(0,200,255,.35),
+    rgba(0,200,255,.12),
+    transparent 70%
+  );
+
+  filter:blur(25px);
+  animation:auraPulse 4s ease-in-out infinite;
+  z-index:-1;
+}
+
+/* LIGHT SWEEP */
+
+.hero-logo::after{
+  content:"";
+  position:absolute;
+  top:-30%;
+  left:-50%;
+  width:50%;
+  height:160%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(0,200,255,.25),
+    transparent
+  );
+  transform:rotate(25deg);
+  animation:lightSweep 6s linear infinite;
+}
+
+/* LOGO IMAGE */
+
+.hero-logo img{
+  width:240px;
+  border-radius:50%;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.8),
+    0 0 40px rgba(0,200,255,.6),
+    inset 0 0 20px rgba(255,255,255,.15);
+
+  transition:all .5s ease;
+}
+
+/* HOVER EFFECT */
+
+.hero-logo:hover img{
+  transform:
+    scale(1.12)
+    rotateX(8deg)
+    rotateY(-8deg);
+
+  box-shadow:
+    0 40px 90px rgba(0,0,0,.9),
+    0 0 60px rgba(0,200,255,.9);
+}
+
+/* FLOAT ANIMATION */
+
+@keyframes logoFloat{
+  0%,100%{
+    transform:translateY(0px);
+  }
+  50%{
+    transform:translateY(-18px);
+  }
+}
+
+/* AURA PULSE */
+
+@keyframes auraPulse{
+  0%,100%{
+    opacity:.7;
+    transform:scale(1);
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.12);
+  }
+}
+
+/* LIGHT SWEEP */
+
+@keyframes lightSweep{
+  0%{
+    left:-60%;
+  }
+  100%{
+    left:130%;
+  }
+}
+
+/* FLOATING BALL */
+
+.floating-ball{
+  position:absolute;
+  top:40px;
+  right:60px;
+  font-size:44px;
+  animation:ballFloat 6s ease-in-out infinite;
+  z-index:6;
+}
+
+@keyframes ballFloat{
+  50%{
+    transform:translateY(-26px) rotate(180deg);
+  }
+}
+
+/* TITLE */
+
+.main-title{
+  font-size:46px;
+  font-weight:900;
+  margin:28px 0 16px;
+  color:#ffffff;
+
+  text-shadow:
+    0 0 20px rgba(0,200,255,.4),
+    0 2px 12px rgba(0,0,0,.8);
+}
+
+/* SUBTITLE */
+
+.subtitle{
+  color:#cbd5f1;
+  max-width:780px;
+  margin:0 auto 36px;
+  font-size:18px;
+}
+
+/* BUTTONS */
+
+.btn{
+  display:inline-block;
+  padding:16px 34px;
+  margin:10px;
+  font-weight:900;
+  border-radius:18px;
+  text-decoration:none;
+
+  background:linear-gradient(135deg,#0ea5e9,#2563eb);
+  color:white;
+
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+
+  transition:.35s;
+}
+
+.btn:hover{
+  transform:translateY(-8px) scale(1.06);
+  box-shadow:0 20px 50px rgba(0,0,0,.8);
+}
+
+.btn.outline{
+  background:white;
+  color:#1d4ed8;
+  border:2px solid #1d4ed8;
+}
+
+
+/* ================= TICKER ================= */
+
+.ticker{
+  overflow:hidden;
+  background:#020617;
+  border-block:1px solid rgba(56,189,248,.3);
+}
+
+.ticker-track{
+  white-space:nowrap;
+  padding:10px 0;
+  animation:tickerMove 24s linear infinite;
+  color:#38bdf8;
+  font-weight:800;
+}
+
+@keyframes tickerMove{
+  from{transform:translateX(100%);}
+  to{transform:translateX(-100%);}
+}
+
+/* ================= CHAMPION FULL WIDTH SECTION ================= */
+
+.champion-section{
+  padding:0;
+  margin:90px 0;
+}
+
+/* Banner Container */
+
+.champion-banner{
+  position:relative;
+  width:100%;
+  height:540px;
+  overflow:hidden;
+}
+
+/* Background Image Full Width */
+
+.champion-bg{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(1.15) contrast(1.05);
+  transition:transform 6s ease;
+}
+
+/* Slow cinematic zoom */
+
+.champion-banner:hover .champion-bg{
+  transform:scale(1.05);
+}
+
+/* Dark Overlay (Premium gradient) */
+
+.champion-banner::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.35),
+    rgba(0,0,0,.65)
+  );
+  z-index:1;
+}
+
+/* Overlay Content */
+
+.champion-overlay{
+  position:absolute;
+  bottom:80px;              /* text bottom side shift */
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  z-index:2;
+  color:white;
+  width:90%;
+  max-width:1000px;
+}
+
+/* ================= PREMIUM TYPOGRAPHY ================= */
+
+
+/* Badge */
+
+.champion-badge{
+  font-family:'Orbitron', sans-serif;
+  display:inline-block;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+
+  color:#f59e0b;
+
+  text-shadow:
+    0 0 8px rgba(245,158,11,.7),
+    0 0 18px rgba(245,158,11,.4);
+
+  margin-bottom:14px;
+
+  animation:badgeGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes badgeGlow{
+  from{
+    text-shadow:
+      0 0 6px rgba(245,158,11,.5);
+  }
+  to{
+    text-shadow:
+      0 0 16px rgba(245,158,11,.9),
+      0 0 28px rgba(245,158,11,.5);
+  }
+}
+
+/* ================= REMOVE ORANGE BACKGROUND ================= */
+
+/* Remove animated glow layer from section */
+
+.trophy-sec::before,
+.trophy-sec::after{
+  content:none !important;
+  display:none !important;
+  background:none !important;
+}
+
+
+/* Remove glow from wrapper (THIS IS MAIN FIX) */
+
+.trophy-image-wrapper::before,
+.trophy-image-wrapper::after{
+  content:none !important;
+  display:none !important;
+  background:none !important;
+}
+
+
+/* Remove glow from card if exists */
+
+.trophy-card::before,
+.trophy-card::after{
+  content:none !important;
+  display:none !important;
+  background:none !important;
+}
+
+
+/* Force pure black background everywhere */
+
+.trophy-sec,
+.trophy-card,
+.trophy-image-wrapper{
+  background:#000000 !important;
+  box-shadow:none !important;
+}
+
+
+/* Trophy wrapper */
+
+.trophy-image-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:15px;
+  overflow:hidden;
+}
+
+
+/* Trophy video */
+
+.trophy-video{
+  width:160px;
+  height:260px;
+
+  object-fit:cover;
+  object-position:center top;
+
+  border-radius:12px;
+
+  display:block;
+
+  animation:floatCup 4s ease-in-out infinite;
+
+  background:#000000 !important;
+}
+
+
+/* ================= TEAM SECTION ================= */
+
+.champion-team-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+
+
+/* Team Logo */
+
+.champion-team-logo{
+  width:55px;
+  height:55px;
+  object-fit:contain;
+
+  filter:
+    drop-shadow(0 0 10px rgba(245,158,11,.9))
+    drop-shadow(0 0 20px rgba(245,158,11,.4));
+
+  transition:transform .3s ease;
+}
+
+.champion-team-logo:hover{
+  transform:scale(1.08);
+}
+
+
+/* Team Name */
+
+.champion-team{
+  font-family:'Orbitron', sans-serif;
+  font-size:36px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+
+  background:linear-gradient(
+    90deg,
+    #ffffff,
+    #facc15,
+    #ffffff
+  );
+
+  background-size:200% auto;
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:
+    0 5px 20px rgba(0,0,0,.8);
+
+  animation:metalShine 5s linear infinite;
+}
+
+@keyframes metalShine{
+  to{
+    background-position:200% center;
+  }
+}
+
+
+/* Description */
+
+.champion-desc{
+  font-family:'Poppins', sans-serif;
+  font-size:16px;
+  font-weight:500;
+  color:#e2e8f0;
+  line-height:1.6;
+
+  max-width:500px;
+  margin:0 auto;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.7);
+
+  opacity:.9;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+  .trophy-video{
+    width:130px;
+    height:210px;
+  }
+
+  .champion-team{
+    font-size:28px;
+  }
+
+  .champion-team-logo{
+    width:45px;
+    height:45px;
+  }
+
+  .champion-desc{
+    font-size:14px;
+  }
+
+  .champion-badge{
+    font-size:14px;
+  }
+
+}
+
+/* ================= TEAMS ================= */
+
+.teams-section{
+  padding:60px 4%;
+  text-align:center;
+}
+
+.section-title{
+  font-size:36px;
+  font-weight:900;
+}
+
+.section-sub{
+  color:#94a3b8;
+  margin-bottom:25px;
+}
+
+/* 🔥 FULL WIDTH GRID */
+
+.teams-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap:24px;
+  align-items:center;
+}
+
+/* 🔥 REMOVE INNER BOX LOOK */
+
+.team-card{
+  background: rgba(255,255,255,0.05);
+  border-radius:18px;
+  padding:25px 20px;
+  transition:.3s;
+  backdrop-filter: blur(6px);
+}
+
+/* remove any inner logo wrapper effect */
+.team-card div{
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 🔥 Hover */
+
+.team-card:hover{
+  transform:translateY(-8px) scale(1.05);
+}
+
+/* 🔥 BIGGER LOGO */
+
+.team-logo{
+  width:120px;      /* 🔥 increased */
+  height:120px;     /* 🔥 increased */
+  object-fit:contain;
+  background:none !important;
+  padding:0;
+  margin-bottom:10px;
+}
+
+/* Team name */
+
+.team-card h3{
+  font-size:18px;
+  margin-top:10px;
+}
+
+/* ================= SOLD PLAYERS ================= */
+
+.sold-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:24px;
+}
+
+.sold-card{
+  background:#020617;
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+  border:1px solid rgba(56,189,248,.25);
+}
+
+.sold-card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.sold-section{
+  padding:70px 4%;
+}
+/* ================= FULL WIDTH TROPHY SECTION ================= */
+
+.trophy-sec{
+  position:relative;
+  width:100vw;
+  height:620px;
+
+  margin-left:calc(-50vw + 50%);
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+
+  justify-content:flex-end;
+  align-items:center;
+
+  text-align:center;
+
+  padding-bottom:60px;
+
+  background:radial-gradient(circle at center,#111827,#000000);
+}
+
+/* ================= TROPHY IMAGE ================= */
+
+.trophy-img{
+  position:absolute;
+
+  top:70px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:240px;   /* SIZE SMALLER */
+  max-width:80%;
+
+  z-index:1;
+
+  filter:
+    drop-shadow(0 30px 50px rgba(0,0,0,0.9))
+    drop-shadow(0 0 60px rgba(245,158,11,0.35));
+
+  transition:transform .6s ease;
+}
+
+/* hover effect */
+
+.trophy-sec:hover .trophy-img{
+  transform:translateX(-50%) scale(1.05);
+}
+
+/* ================= GOLD GLOW UNDER TROPHY ================= */
+
+.trophy-sec::before{
+  content:"";
+  position:absolute;
+
+  top:160px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:420px;
+  height:220px;
+
+  background:radial-gradient(
+    circle,
+    rgba(250,204,21,0.35),
+    transparent 70%
+  );
+
+  z-index:0;
+}
+
+/* ================= CONTENT GLASS PANEL ================= */
+
+.trophy-card{
+  position:relative;
+  z-index:5;
+
+  width:100%;
+  max-width:850px;
+
+  padding:26px 30px;
+
+  margin-top:240px;  /* PUSH TEXT DOWN */
+
+  background:rgba(0,0,0,.55);
+
+  backdrop-filter:blur(14px);
+
+  border-radius:18px;
+
+  border:1px solid rgba(255,255,255,.12);
+
+  box-shadow:
+    0 10px 60px rgba(0,0,0,.9);
+
+  animation:fadeUp 1.2s ease forwards;
+}
+
+/* ================= FADE ANIMATION ================= */
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ================= TITLE ================= */
+
+.trophy-title{
+  font-size:44px;
+  font-weight:900;
+  margin-bottom:10px;
+
+  background:linear-gradient(90deg,#ffffff,#facc15,#f59e0b);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:
+    0 0 30px rgba(245,158,11,.8),
+    0 0 60px rgba(245,158,11,.4);
+}
+
+/* ================= DESCRIPTION ================= */
+
+.trophy-desc{
+  font-size:20px;
+
+  color:#ffffff;
+
+  line-height:1.8;
+
+  max-width:650px;
+  margin:0 auto;
+
+  text-shadow:
+    0 0 12px rgba(0,0,0,1),
+    0 0 28px rgba(0,0,0,.9);
+
+  margin-top:8px;
+
+  animation:fadeUp 1.8s ease forwards;
+}
+/* ================= CONFETTI ================= */
+
+#confetti{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999;
+}
+
+
+section{
+  margin-top:20px;
+}
+
+section::before{
+  content:"";
+  display:block;
+  width:120px;
+  height:3px;
+  margin:0 auto 40px;
+  background:linear-gradient(90deg,#0ea5e9,#f59e0b);
+  border-radius:999px;
+  opacity:.4;
+}
+
+/* SECTION */
+
+.teams-section{
+  padding:80px 6%;
+  text-align:center;
+}
+
+.section-title{
+  font-size:36px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.section-sub{
+  color:#94a3b8;
+  margin-bottom:40px;
+}
+
+/* GRID */
+
+.teams-grid{
+  display:grid;
+  grid-template-columns:repeat(5, 1fr); /* 5 cards ek row me */
+  gap:20px;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* CARD BASE */
+
+.team-card{
+  padding:20px 15px;
+  border-radius:18px;
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.08);
+  transition:.3s;
+  position:relative;
+}
+
+
+.team-card:hover{
+  transform:translateY(-10px) scale(1.05);
+}
+
+/* LOGO BOX */
+
+.logo-box{
+  background:rgba(255,255,255,.06);
+  border-radius:16px;
+  padding:12px;
+  margin-bottom:12px;
+
+  width:110px;
+  height:110px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  margin-left:auto;
+  margin-right:auto;
+
+  transition:.3s;
+}
+
+
+.team-logo{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+}
+
+
+.team-card:hover .team-logo{
+  transform:scale(1.1);
+}
+
+/* TEAM NAME */
+
+.team-card h3{
+  font-size:18px;
+  font-weight:800;
+}
+
+/* COLOR THEMES */
+
+.team-orange{
+  background:linear-gradient(135deg,rgba(249,115,22,.25),rgba(249,115,22,.05));
+  box-shadow:0 0 30px rgba(249,115,22,.3);
+}
+
+.team-blue{
+  background:linear-gradient(135deg,rgba(56,189,248,.25),rgba(56,189,248,.05));
+  box-shadow:0 0 30px rgba(56,189,248,.3);
+}
+
+.team-red{
+  background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(239,68,68,.05));
+  box-shadow:0 0 30px rgba(239,68,68,.3);
+}
+
+.team-green{
+  background:linear-gradient(135deg,rgba(34,197,94,.25),rgba(34,197,94,.05));
+  box-shadow:0 0 30px rgba(34,197,94,.3);
+}
+
+.team-purple{
+  background:linear-gradient(135deg,rgba(168,85,247,.25),rgba(168,85,247,.05));
+  box-shadow:0 0 30px rgba(168,85,247,.3);
+}
+/* ================= PREMIUM RULES SECTION ================= */
+
+.rules-sec{
+
+  width:100vw;
+  margin-left:calc(-50vw + 50%);
+
+  padding:120px 20px;
+
+  text-align:center;
+  position:relative;
+}
+
+/* Background glow */
+
+.rules-sec::before{
+
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(circle at 30% 40%, rgba(56,189,248,.12), transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(245,158,11,.12), transparent 50%);
+
+  z-index:0;
+}
+
+/* Container */
+
+.rules-container{
+
+  position:relative;
+  z-index:2;
+
+  max-width:1200px;
+  margin:0 auto;
+}
+
+/* Title */
+
+.rules-title{
+
+  font-size:46px;
+  font-weight:900;
+
+  margin-bottom:12px;
+
+  background:linear-gradient(90deg,#ffffff,#facc15);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 30px rgba(245,158,11,.4);
+}
+
+/* Subtitle */
+
+.rules-subtitle{
+
+  color:#94a3b8;
+  margin-bottom:60px;
+  font-size:18px;
+}
+
+/* Grid */
+
+.rules-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+  gap:30px;
+}
+
+/* Card */
+
+.rule-card{
+
+  padding:35px 25px;
+
+  border-radius:20px;
+
+  background:linear-gradient(
+    145deg,
+    rgba(255,255,255,.06),
+    rgba(255,255,255,.02)
+  );
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  transition:.35s;
+
+  box-shadow:
+    0 0 30px rgba(56,189,248,.12);
+}
+
+/* Hover effect */
+
+.rule-card:hover{
+
+  transform:translateY(-10px) scale(1.04);
+
+  box-shadow:
+    0 0 50px rgba(245,158,11,.35);
+}
+
+/* Icon */
+
+.rule-icon{
+
+  font-size:42px;
+  margin-bottom:15px;
+
+  filter:drop-shadow(0 0 10px rgba(245,158,11,.6));
+}
+
+/* Heading */
+
+.rule-card h3{
+
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+/* Text */
+
+.rule-card p{
+
+  color:#cbd5f1;
+  font-size:16px;
+}
+
+
+</style>
+
+
+{% endblock %}
+

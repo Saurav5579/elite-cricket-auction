@@ -1,0 +1,698 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ECC Elite Cricket Championship</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Premium Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+
+  <style>
+
+/* =========================
+🌑 DARK BODY THEME
+========================= */
+
+html, body{
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+}
+
+body{
+  background:linear-gradient(180deg,#020617,#020617,#000000);
+  color:#e5e7eb;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+🏏 ULTRA PREMIUM CRICKET NAVBAR
+========================= */
+
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+
+  display:grid;
+  grid-template-columns: max-content 1fr max-content; 
+  /* Left auto width | Center flexible | Right auto width */
+
+  align-items:center;
+  padding:14px 60px;
+
+  background:linear-gradient(90deg,#0b1220,#0a1a3a,#0b1220);
+  border-bottom:2px solid #f59e0b;
+
+  box-shadow:
+    0 0 30px rgba(245,158,11,.25),
+    inset 0 -1px 0 rgba(255,255,255,.05);
+}
+
+/* =========================
+🏷 BRAND AREA (LEFT)
+========================= */
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:.6px;
+  color:white;
+
+  text-shadow:0 0 12px rgba(56,189,248,.45);
+}
+
+.brand img{
+  height:40px;
+  width:40px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 8px #38bdf8);
+}
+
+.brand-title{
+  white-space:nowrap;
+}
+
+/* =========================
+🔥 CENTER AUCTION BADGE
+========================= */
+
+.auction-badge{
+  justify-self:center;
+
+  transform: translateX(100px);   /* 👈 yaha se control hoga */
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:8px 26px;
+  border-radius:999px;
+
+  background:rgba(245,158,11,.12);
+  border:1px solid rgba(245,158,11,.6);
+
+  font-size:13px;
+  font-weight:900;
+  color:#f59e0b;
+
+  box-shadow:0 0 18px rgba(245,158,11,.45);
+}
+
+
+/* Blinking orange dot */
+
+.auction-dot{
+  width:8px;
+  height:8px;
+  background:#f59e0b;
+  border-radius:50%;
+  box-shadow:0 0 12px #f59e0b;
+  animation:pulseAuction 1.4s infinite;
+}
+
+@keyframes pulseAuction{
+  50%{opacity:.4;}
+}
+
+/* =========================
+🎯 NAV LINKS (RIGHT)
+========================= */
+
+.nav-links{
+  display:flex;
+  gap:34px;
+  align-items:center;
+  justify-content:flex-end;  /* Push to right */
+}
+
+.nav-links a,
+.dropbtn{
+  color:#cbd5f1;
+  text-decoration:none;
+  font-weight:800;
+  letter-spacing:.4px;
+
+  position:relative;
+  padding:8px 6px;
+
+  transition:.25s;
+  cursor:pointer;
+
+  background:transparent !important;
+  border:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+
+/* Neon underline */
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-7px;
+  width:0%;
+  height:3px;
+  background:linear-gradient(90deg,#38bdf8,#f59e0b);
+  border-radius:3px;
+  transition:.25s;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+/* =========================
+🏏 ULTRA PREMIUM TEAMS DROPDOWN — WHITE TILE
+========================= */
+
+.dropdown{
+  position:relative;
+}
+
+
+/* ===== dropdown panel ===== */
+
+.dropdown-content{
+  opacity:0;
+  visibility:hidden;
+
+  position:absolute;
+  top:52px;
+  left:50%;
+
+  transform:translate(-50%, -10px) scale(.96);
+
+  min-width:250px;
+  padding:16px;
+
+  border-radius:18px;
+
+  background:linear-gradient(180deg,#020617,#020617ee);
+  backdrop-filter:blur(14px);
+
+  border:1px solid rgba(56,189,248,.40);
+
+  box-shadow:
+    0 0 30px rgba(56,189,248,.25),
+    inset 0 0 18px rgba(56,189,248,.08);
+
+  transition:
+    opacity .22s ease,
+    transform .22s ease,
+    visibility .22s;
+}
+
+
+/* ===== smooth open ===== */
+
+.dropdown:hover .dropdown-content{
+  opacity:1;
+  visibility:visible;
+  transform:translate(-50%, 0) scale(1);
+}
+
+
+/* ===== team boxes default (dark glass) ===== */
+
+.dropdown-content a{
+  display:block;
+
+  padding:13px 18px;
+  margin:8px 0;
+
+  border-radius:14px;
+
+  font-weight:800;
+  letter-spacing:.3px;
+
+  color:#e5e7eb;
+
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.18);
+
+  transition:.18s ease;
+}
+
+
+/* ===== hover = ORANGE highlight ===== */
+
+.dropdown-content a:hover{
+  background:linear-gradient(90deg,#f59e0b,#f97316);
+  color:#ffffff;
+
+  box-shadow:
+    0 0 20px rgba(245,158,11,.75);
+
+  transform:translateX(6px) scale(1.03);
+}
+
+
+/* ===== active team highlight (orange permanent) ===== */
+
+body[class*="/teams/team-a"] a[href="/teams/team-a/"],
+body[class*="/teams/team-b"] a[href="/teams/team-b/"],
+body[class*="/teams/team-c"] a[href="/teams/team-c/"],
+body[class*="/teams/team-d"] a[href="/teams/team-d/"]{
+  background:linear-gradient(90deg,#f59e0b,#f97316);
+  color:#ffffff;
+  box-shadow:0 0 22px rgba(245,158,11,.85);
+}
+
+/* =========================
+📦 PAGE CONTAINER
+========================= */
+
+.container{
+  padding:38px 24px;
+  max-width:1100px;
+  margin:auto;
+}
+/* =========================
+HAMBURGER DEFAULT HIDDEN (DESKTOP)
+========================= */
+
+.menu-toggle{
+  display:none;
+  font-size:26px;
+  color:#f59e0b;
+  cursor:pointer;
+  user-select:none;
+}
+
+
+/* =========================
+MOBILE NAVBAR
+========================= */
+
+@media(max-width:768px){
+
+  .navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 16px;
+  }
+
+  /* Show hamburger only on mobile */
+  .menu-toggle{
+    display:block;
+    order:1;
+  }
+
+  .brand{
+    order:2;
+  }
+
+  .auction-badge{
+    display:none;
+  }
+
+  /* Hide menu by default */
+  .nav-links{
+    position:absolute;
+    top:100%;
+    left:0;
+
+    width:100%;
+
+    background:#020617;
+
+    flex-direction:column;
+
+    padding:20px;
+
+    gap:16px;
+
+    display:none;
+  }
+
+  /* Show when active */
+  .nav-links.active{
+    display:flex;
+  }
+
+}
+
+
+
+/* =========================
+💎 ULTRA FOOTER — POLISHED
+========================= */
+
+.site-footer{
+  margin-top:90px;
+  background:linear-gradient(180deg,#020617,#000000);
+  color:#cbd5f1;
+  border-top:3px solid #38bdf8;
+  box-shadow:0 -10px 40px rgba(56,189,248,.15);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1.2fr 1fr;
+  gap:70px;
+  max-width:1200px;
+  margin:auto;
+  padding:60px 40px 45px;
+  align-items:start;
+}
+
+.footer-col{
+  display:flex;
+  flex-direction:column;
+}
+
+.footer-brand{
+  color:white;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:16px;
+  text-shadow:0 0 12px rgba(56,189,248,.35);
+}
+
+.footer-text{
+  line-height:1.7;
+  color:#94a3b8;
+}
+
+.site-footer h4{
+  color:white;
+  margin-bottom:18px;
+  font-size:16px;
+  letter-spacing:.4px;
+}
+
+
+/* =========================
+LISTS
+========================= */
+
+.footer-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.footer-list li{
+  margin:10px 0;
+  line-height:1.55;
+  color:#94a3b8;
+}
+
+.site-footer a{
+  color:#94a3b8;
+  text-decoration:none;
+  transition:.25s;
+}
+
+.site-footer a:hover{
+  color:#38bdf8;
+  text-shadow:0 0 8px rgba(56,189,248,.6);
+}
+
+
+/* =========================
+SOCIAL
+========================= */
+
+.social-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  margin-top:6px;
+}
+
+.social-line{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:700;
+  font-size:15px;
+  transition:.25s;
+}
+
+.social-line i{
+  font-size:18px;
+  width:22px;
+}
+
+.social-line.web{ color:#38bdf8; }
+.social-line.fb{ color:#1877f2; }
+.social-line.ig{ color:#e1306c; }
+.social-line.yt{ color:#ff0000; }
+
+.social-line:hover{
+  transform:translateX(6px);
+  filter:brightness(1.25);
+  text-shadow:0 0 10px currentColor;
+}
+
+
+/* =========================
+BOTTOM BAR
+========================= */
+
+.footer-bottom{
+  text-align:center;
+  padding:24px;
+  border-top:1px solid rgba(148,163,184,.18);
+  font-size:14px;
+  color:#64748b;
+  background:#000814;
+}
+
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media (max-width:1000px){
+  .footer-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:50px;
+  }
+}
+
+@media (max-width:560px){
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .nav-links{
+    gap:16px;
+    font-size:14px;
+  }
+}
+
+</style>
+
+
+
+</head>
+
+<body class="{{ request.path }}">
+
+<!-- ✅ Premium Navbar -->
+<nav class="navbar">
+  <!-- LEFT: Hamburger -->
+  <div class="menu-toggle" onclick="toggleMenu()">
+    ☰
+  </div>
+  <!-- Brand -->
+  <div class="brand">
+
+    <img src="{% static 'images/ecc-logo.png' %}" alt="ECC Logo">
+
+    <span class="brand-title">
+      ECC-Elite Cricket Championship
+    </span>
+
+   <!-- Auction Status Badge -->
+<div class="auction-badge">
+  <span class="auction-dot"></span>
+  ECC Auction — Coming Soon
+</div>
+  </div>
+ 
+  <!-- Nav Links -->
+  <div class="nav-links">
+
+    <a href="/">Home</a>
+    <a href="/register/">Register Player</a>
+  <a href="#" class="nav-link" onclick="return false;">Auction Pool</a>
+
+    <!-- Teams dropdown -->
+    <div class="dropdown">
+
+      <a class="dropbtn">
+        Teams ▾
+      </a>
+
+     <div class="dropdown-content">
+
+  <a href="#" class="team-link" onclick="return false;">Mahadev 11</a>
+  <a href="#" class="team-link" onclick="return false;">RMJ Titans</a>
+  <a href="#" class="team-link" onclick="return false;">Spartan Warriors</a>
+  <a href="#" class="team-link" onclick="return false;">Garuda XI</a>
+  <a href="#" class="team-link" onclick="return false;">Night Hawks</a>
+
+</div>
+
+    </div>
+
+  </div>
+
+</nav>
+
+{% block content %}{% endblock %}
+
+
+<footer class="site-footer">
+
+  <div class="footer-grid">
+
+    <!-- BRAND -->
+    <div class="footer-col footer-brand-col">
+      <h3 class="footer-brand">🏏 ECC Elite Cricket Championship</h3>
+      <p class="footer-text">
+        Official Player Auction Platform — Edition 2  
+        Manage players, teams, and live bidding professionally.
+      </p>
+            <a href="/export-players/" class="btn btn-success">
+    Download Players Excel
+</a>
+    </div>
+
+    <!-- LINKS -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/register/">Register Player</a></li>
+        <li><a href="/players/">Auction Pool</a></li>
+        <li><a href="/admin/">Admin Panel</a></li>
+        <li><a href="/terms/">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+    <!-- ADDRESS -->
+    <div class="footer-col">
+      <h4>Address</h4>
+      <ul class="footer-list">
+        <li>📍 ECC Cricket Gurukul Building</li>
+        <li>Near Old Bus Stand, Rajgarh</li>
+        <li>Sirmaur, Himachal Pradesh</li>
+        <li>India — PIN 173101</li>
+        <li>📞 +91 62300-37509</li>
+        <li>📧 ecc@auction.local</li>
+      </ul>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+
+      <div class="social-list">
+        <a href="#" class="social-line web">
+          <i class="fa-solid fa-globe"></i><span>Website</span>
+        </a>
+
+      <a href="https://www.facebook.com/share/182nD992ov/" 
+   class="social-line fb" 
+   target="_blank">
+  <i class="fa-brands fa-facebook-f"></i>
+  <span>Facebook</span>
+</a>
+
+<a href="https://www.instagram.com/the_next_over?igsh=bHp4aThnZm5tMWZx" 
+   class="social-line ig" 
+   target="_blank">
+  <i class="fa-brands fa-instagram"></i>
+  <span>Instagram</span>
+</a>
+
+
+        <a href="#" class="social-line yt">
+          <i class="fa-brands fa-youtube"></i><span>YouTube</span>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 ECC Elite Cricket Championship — All Rights Reserved
+  </div>
+
+</footer>
+<script>
+
+const menu = document.getElementById("navMenu");
+const toggle = document.querySelector(".menu-toggle");
+
+
+/* Toggle menu open / close */
+
+function toggleMenu(){
+
+  menu.classList.toggle("active");
+
+  /* Change icon */
+  if(menu.classList.contains("active")){
+    toggle.innerHTML = "✕";
+  }else{
+    toggle.innerHTML = "☰";
+  }
+
+}
+
+
+/* Close menu when clicking outside */
+
+document.addEventListener("click", function(event){
+
+  if(!toggle.contains(event.target) && !menu.contains(event.target)){
+
+    menu.classList.remove("active");
+
+    toggle.innerHTML = "☰";
+
+  }
+
+});
+
+
+/* Close menu when clicking any link */
+
+document.querySelectorAll("#navMenu a").forEach(link => {
+
+  link.addEventListener("click", () => {
+
+    menu.classList.remove("active");
+
+    toggle.innerHTML = "☰";
+
+  });
+
+});
+
+</script>
+
+
+</body>
+</html>

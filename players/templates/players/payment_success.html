@@ -1,0 +1,142 @@
+{% extends "players/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+/* =========================
+   BACKGROUND
+========================= */
+.success-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #0f2a5c, #06142e 70%);
+    padding: 40px 5%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glow Effect */
+.success-section::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,255,150,0.4), transparent 70%);
+    top: -200px;
+    right: -200px;
+    filter: blur(120px);
+}
+
+/* =========================
+   CARD
+========================= */
+.success-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 50px 40px;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    color: white;
+    animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Success Icon */
+.success-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: #00ff99;
+    animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+/* Title */
+.success-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #00ffcc, #00ff99);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Player Info */
+.success-info {
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.success-info p {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 6px 0;
+}
+
+/* Button */
+.back-btn {
+    margin-top: 30px;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.back-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,114,255,0.6);
+}
+
+</style>
+
+
+<section class="success-section">
+
+    <div class="success-card">
+
+        <div class="success-icon">🎉</div>
+
+        <div class="success-title">
+            Payment Successful!
+        </div>
+
+        <p>Your registration has been completed successfully.</p>
+
+        <div class="success-info">
+            <p><strong>Player ID:</strong> <span>{{ player.player_id }}</span></p>
+            <p><strong>Name:</strong> <span>{{ player.name }}</span></p>
+            <p><strong>Amount Paid:</strong> <span>₹{{ player.payment_amount }}</span></p>
+            <p><strong>Date:</strong> <span>{{ player.payment_date }}</span></p>
+        </div>
+
+ <a href="{% url 'player_list' %}" class="back-btn">
+    Go to Player List
+</a>
+
+    </div>
+
+</section>
+
+{% endblock %}

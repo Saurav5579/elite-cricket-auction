@@ -1,0 +1,240 @@
+{% extends "players/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+/* =========================
+   BACKGROUND SECTION
+========================= */
+.payment-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 5%;
+    background: radial-gradient(circle at 20% 20%, #0f2a5c, #06142e 60%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated glow background */
+.payment-section::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,114,255,0.4), transparent 70%);
+    top: -150px;
+    right: -150px;
+    filter: blur(120px);
+    animation: floatGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes floatGlow {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(40px); }
+}
+
+/* =========================
+   CARD
+========================= */
+.payment-card {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    color: #ffffff;
+    animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   PREMIUM TITLE FIXED
+========================= */
+
+.payment-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 35px;
+    letter-spacing: 1.2px;
+}
+
+.title-icon {
+    font-size: 28px;
+    margin-right: 10px;
+    color: #00c6ff;   /* solid color icon */
+    vertical-align: middle;
+}
+
+.title-text {
+    background: linear-gradient(90deg, #00f2fe, #4facfe, #00f2fe);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shineText 4s linear infinite;
+}
+
+/* Animated Gradient Flow */
+@keyframes shineText {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* =========================
+   PLAYER INFO
+========================= */
+.player-info {
+    margin-bottom: 25px;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.player-info p {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+}
+
+.player-info strong {
+    color: #00c6ff;
+}
+
+/* =========================
+   FEE BOX
+========================= */
+.fee-box {
+    background: linear-gradient(135deg, rgba(0,198,255,0.2), rgba(0,114,255,0.2));
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 1px solid rgba(0,198,255,0.4);
+    box-shadow: 0 10px 30px rgba(0,114,255,0.3);
+}
+
+.fee-box h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* =========================
+   BUTTON
+========================= */
+.pay-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pay-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,114,255,0.6);
+}
+
+/* Button Shine Effect */
+.pay-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+    transform: skewX(-25deg);
+    transition: 0.7s;
+}
+
+.pay-btn:hover::before {
+    left: 130%;
+}
+
+</style>
+
+<section class="payment-section">
+
+    <div class="payment-card">
+
+        <div class="payment-title">
+            <span class="title-icon">💳</span>
+            <span class="title-text">Complete Registration Payment</span>
+        </div>
+
+        <div class="player-info">
+            <p><strong>Player ID:</strong> <span>{{ player.player_id }}</span></p>
+            <p><strong>Name:</strong> <span>{{ player.name }}</span></p>
+            <p><strong>Role:</strong> <span>{{ player.role }}</span></p>
+            <p><strong>Base Price:</strong> <span>₹{{ player.base_price }}</span></p>
+        </div>
+
+        <div class="fee-box">
+            <h3>Registration Fee: ₹{{ player.payment_amount }}</h3>
+        </div>
+
+        <!-- Direct Razorpay Button -->
+        <button type="button" class="pay-btn" id="rzp-button">
+            🔒 Secure Payment ₹{{ player.payment_amount }}
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+document.getElementById("rzp-button").onclick = function(e){
+
+    var options = {
+        "key": "{{ razorpay_key }}",
+        "amount": "{{ amount }}",
+        "currency": "INR",
+        "name": "ECC Elite Cricket Championship",
+        "description": "Player Registration Fee",
+        "order_id": "{{ order_id }}",
+        "handler": function (response){
+            window.location.href = "/payment-success/{{ player.id }}/";
+        },
+        "theme": {
+            "color": "#00c6ff"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+};
+</script>
+{% endblock %}
