@@ -341,3 +341,15 @@ def export_players_excel(request):
 
 def terms(request):
     return render(request, "players/terms.html")
+
+
+
+def player_detail(request, id):
+    from .models import Player
+    from django.shortcuts import render, get_object_or_404
+
+    player = get_object_or_404(Player, id=id)
+
+    return render(request, "players/player_detail.html", {
+        "player": player
+    })

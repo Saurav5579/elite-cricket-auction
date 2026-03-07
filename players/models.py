@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from django.urls import reverse
 
 class Player(models.Model):
 
@@ -112,9 +112,12 @@ class Player(models.Model):
 
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"{self.player_id} - {self.name}"
+def __str__(self):
+    return f"{self.player_id} - {self.name}"
 
+# ✅ Sitemap ke liye player page URL
+def get_absolute_url(self):
+    return reverse("player_detail", args=[self.id])
 
 # =========================
 # AUCTION MODEL

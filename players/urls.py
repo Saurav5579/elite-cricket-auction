@@ -10,6 +10,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("register/", views.register_player, name="register_player"),
     path("players/", views.player_list, name="player_list"),
+    
 
     # =========================
     # PAYMENT
