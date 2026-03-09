@@ -7,6 +7,10 @@ import razorpay
 
 from .models import Player, Auction, Bid
 from .forms import PlayerForm
+import razorpay
+
+from django.shortcuts import render, get_object_or_404
+from .models import Player
 
 # =========================
 # HOME PAGE
@@ -36,33 +40,32 @@ def register_player(request):
 # =========================
 # PAYMENT PAGE (Direct Razorpay Popup)
 # =========================
-from django.views.decorators.csrf import csrf_exempt
+
 
 def payment_page(request, player_id):
+
     player = get_object_or_404(Player, id=player_id)
 
-    if request.method == "POST":
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
 
-        client = razorpay.Client(
-            auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-        )
+    amount = player.payment_amount * 100
 
-        order_amount = player.payment_amount * 100
+    order = client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": "1"
+    })
 
-        order = client.order.create({
-            "amount": order_amount,
-            "currency": "INR",
-            "payment_capture": "1"
-        })
+    context = {
+        "player": player,
+        "razorpay_key": settings.RAZORPAY_KEY_ID,
+        "amount": amount,
+        "order_id": order["id"]
+    }
 
-        return JsonResponse({
-            "order_id": order["id"],
-            "amount": order_amount,
-            "key": settings.RAZORPAY_KEY_ID
-        })
-
-    return render(request, "players/payment.html", {"player": player})
-
+    return render(request, "players/payment.html", context)
 # =========================
 # PAYMENT SUCCESS
 # =========================
