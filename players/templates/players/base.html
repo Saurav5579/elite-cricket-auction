@@ -50,11 +50,10 @@ body{
   top:0;
   z-index:1000;
 
-  display:grid;
-  grid-template-columns: max-content 1fr max-content; 
-  /* Left auto width | Center flexible | Right auto width */
-
+  display:flex;
   align-items:center;
+  justify-content:space-between;
+
   padding:14px 60px;
 
   background:linear-gradient(90deg,#0b1220,#0a1a3a,#0b1220);
@@ -65,14 +64,15 @@ body{
     inset 0 -1px 0 rgba(255,255,255,.05);
 }
 
+
 /* =========================
-🏷 BRAND AREA (LEFT)
+🏷 BRAND AREA
 ========================= */
 
 .brand{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:12px;
 
   font-size:20px;
   font-weight:900;
@@ -93,20 +93,21 @@ body{
   white-space:nowrap;
 }
 
+
 /* =========================
-🔥 CENTER AUCTION BADGE
+🔥 AUCTION BADGE
 ========================= */
 
 .auction-badge{
-  justify-self:center;
-
-  transform: translateX(100px);   /* 👈 yaha se control hoga */
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
 
   display:flex;
   align-items:center;
   gap:8px;
 
-  padding:8px 26px;
+  padding:8px 24px;
   border-radius:999px;
 
   background:rgba(245,158,11,.12);
@@ -118,9 +119,6 @@ body{
 
   box-shadow:0 0 18px rgba(245,158,11,.45);
 }
-
-
-/* Blinking orange dot */
 
 .auction-dot{
   width:8px;
@@ -135,15 +133,15 @@ body{
   50%{opacity:.4;}
 }
 
+
 /* =========================
-🎯 NAV LINKS (RIGHT)
+🎯 NAV LINKS
 ========================= */
 
 .nav-links{
   display:flex;
-  gap:34px;
+  gap:32px;
   align-items:center;
-  justify-content:flex-end;  /* Push to right */
 }
 
 .nav-links a,
@@ -165,8 +163,6 @@ body{
   box-shadow:none !important;
 }
 
-/* Neon underline */
-
 .nav-links a::after{
   content:"";
   position:absolute;
@@ -183,6 +179,91 @@ body{
   width:100%;
 }
 
+
+/* =========================
+📱 HAMBURGER
+========================= */
+
+.menu-toggle{
+  display:none;
+  font-size:28px;
+  color:#f59e0b;
+  cursor:pointer;
+}
+
+
+/* =========================
+📱 MOBILE NAVBAR
+========================= */
+
+@media (max-width:900px){
+
+.navbar{
+  padding:14px 20px;
+}
+
+/* show hamburger */
+
+.menu-toggle{
+  display:block;
+}
+
+/* hide desktop nav */
+
+.nav-links{
+  position:absolute;
+  top:70px;
+  left:0;
+
+  width:100%;
+  flex-direction:column;
+  align-items:center;
+  gap:22px;
+
+  padding:30px 0;
+
+  background:linear-gradient(180deg,#0b1220,#0a1a3a);
+
+  border-top:1px solid rgba(255,255,255,.06);
+
+  display:none;
+}
+
+/* open menu */
+
+.nav-links.active{
+  display:flex;
+}
+
+/* hide auction badge */
+
+.auction-badge{
+  display:none;
+}
+
+}
+
+
+/* =========================
+📱 VERY SMALL MOBILE
+========================= */
+
+@media (max-width:500px){
+
+.brand img{
+  height:34px;
+  width:34px;
+}
+
+.brand-title{
+  font-size:14px;
+}
+
+.menu-toggle{
+  font-size:26px;
+}
+
+}
 /* =========================
 🏏 ULTRA PREMIUM TEAMS DROPDOWN — WHITE TILE
 ========================= */
@@ -505,7 +586,119 @@ RESPONSIVE
     font-size:14px;
   }
 }
+/* =========================
+📱 TABLET
+========================= */
 
+@media (max-width:1024px){
+
+.footer-grid{
+grid-template-columns:repeat(2,1fr);
+gap:40px;
+padding:50px 30px;
+}
+
+.footer-brand{
+font-size:18px;
+}
+
+.footer-text{
+font-size:15px;
+}
+
+.site-footer h4{
+font-size:15px;
+}
+
+.footer-list li{
+font-size:14px;
+}
+
+.social-line{
+font-size:14px;
+}
+
+}
+
+
+/* =========================
+📱 MOBILE
+========================= */
+
+@media (max-width:768px){
+
+.site-footer{
+margin-top:70px;
+}
+
+.footer-grid{
+grid-template-columns:1fr;
+gap:32px;
+padding:40px 24px;
+text-align:left;
+}
+
+.footer-brand{
+font-size:17px;
+}
+
+.footer-text{
+font-size:14px;
+}
+
+.site-footer h4{
+font-size:15px;
+margin-bottom:14px;
+}
+
+.footer-list li{
+font-size:14px;
+}
+
+.social-list{
+gap:12px;
+}
+
+.social-line{
+font-size:14px;
+}
+
+}
+
+
+/* =========================
+📱 SMALL MOBILE
+========================= */
+
+@media (max-width:480px){
+
+.footer-grid{
+padding:35px 18px;
+gap:26px;
+}
+
+.footer-brand{
+font-size:16px;
+}
+
+.footer-text{
+font-size:13px;
+}
+
+.footer-list li{
+font-size:13px;
+}
+
+.social-line{
+font-size:13px;
+}
+
+.footer-bottom{
+font-size:12px;
+padding:18px;
+}
+
+}
 </style>
 
 
@@ -516,11 +709,8 @@ RESPONSIVE
 
 <!-- ✅ Premium Navbar -->
 <nav class="navbar">
-  <!-- LEFT: Hamburger -->
-  <div class="menu-toggle" onclick="toggleMenu()">
-    ☰
-  </div>
-  <!-- Brand -->
+
+  <!-- LEFT : Brand -->
   <div class="brand">
 
     <img src="{% static 'images/ecc-logo.png' %}" alt="ECC Logo">
@@ -528,44 +718,56 @@ RESPONSIVE
     <span class="brand-title">
       ECC-Elite Cricket Championship
     </span>
-
-   <!-- Auction Status Badge -->
-<div class="auction-badge">
-  <span class="auction-dot"></span>
-  ECC Auction — Coming Soon
-</div>
+                                                
+    <div class="menu-toggle" onclick="toggleMenu()">
+    ☰
   </div>
- 
-  <!-- Nav Links -->
-  <div class="nav-links">
+  </div>
+
+
+  <!-- CENTER : Auction Badge -->
+
+  <div class="auction-badge">
+    <span class="auction-dot"></span>
+    ECC Auction — Coming Soon
+  </div>
+
+
+  <!-- RIGHT MENU -->
+
+  <div class="nav-links" id="navLinks">
 
     <a href="/">Home</a>
     <a href="/register/">Register Player</a>
-  <a href="#" class="nav-link" onclick="return false;">Auction Pool</a>
+
+    <a href="#" onclick="return false;">
+      Auction Pool
+    </a>
+
 
     <!-- Teams dropdown -->
+
     <div class="dropdown">
 
       <a class="dropbtn">
         Teams ▾
       </a>
 
-     <div class="dropdown-content">
+      <div class="dropdown-content">
 
-  <a href="#" class="team-link" onclick="return false;">Mahadev 11</a>
-  <a href="#" class="team-link" onclick="return false;">RMJ Titans</a>
-  <a href="#" class="team-link" onclick="return false;">Spartan Warriors</a>
-  <a href="#" class="team-link" onclick="return false;">Garuda XI</a>
-  <a href="#" class="team-link" onclick="return false;">Night Hawks</a>
+        <a href="#" onclick="return false">Mahadev 11</a>
+        <a href="#" onclick="return false">RMJ Titans</a>
+        <a href="#" onclick="return false">Spartan Warriors</a>
+        <a href="#" onclick="return false">Garuda XI</a>
+        <a href="#" onclick="return false">Night Hawks</a>
 
-</div>
+      </div>
 
     </div>
 
   </div>
 
 </nav>
-
 {% block content %}{% endblock %}
 
 
@@ -700,7 +902,13 @@ document.querySelectorAll("#navMenu a").forEach(link => {
 });
 
 </script>
+<script>
 
+function toggleMenu(){
+  document.querySelector(".nav-links").classList.toggle("active");
+}
+
+</script>
 
 </body>
 </html>
