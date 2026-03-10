@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from django.urls import reverse
+from datetime import datetime
+
 
 class Player(models.Model):
 
@@ -24,10 +25,8 @@ class Player(models.Model):
         ("Spin Bowler", "Spin Bowler"),
     ]
 
-    # ✅ Auto Player ID
-    player_id = models.CharField(max_length=10, unique=True, blank=True)
+    player_id = models.CharField(max_length=20, unique=True, blank=True)
 
-    # ✅ Basic Details
     name = models.CharField(max_length=100)
     age = models.IntegerField()
 
@@ -35,50 +34,54 @@ class Player(models.Model):
     mobile = models.CharField(max_length=15, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
 
-    role = models.CharField(
-        max_length=30,
-        choices=ROLE_CHOICES,
-        blank=True,
-        null=True
-    )
-
-    playing_style = models.CharField(
-        max_length=30,
-        choices=STYLE_CHOICES,
-        blank=True,
-        null=True
-    )
-
-    experience = models.CharField(
-        max_length=30,
-        choices=EXPERIENCE_CHOICES,
-        blank=True,
-        null=True
-    )
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES, blank=True, null=True)
+    playing_style = models.CharField(max_length=30, choices=STYLE_CHOICES, blank=True, null=True)
+    experience = models.CharField(max_length=30, choices=EXPERIENCE_CHOICES, blank=True, null=True)
 
     base_price = models.IntegerField(default=500)
 
-    # ✅ Uploads
-    photo = models.ImageField(
-        upload_to="players/photos/",
-        blank=True,
-        null=True
-    )
+    photo = models.ImageField(upload_to="players/photos/", blank=True, null=True)
+    document = models.FileField(upload_to="players/docs/", blank=True, null=True)
 
-    document = models.FileField(
-        upload_to="players/docs/",
-        blank=True,
-        null=True
-    )
-
-    # ✅ Terms Checkbox
     agreed_terms = models.BooleanField(default=False)
 
+    payment_status = models.BooleanField(default=False)
+    payment_date = models.DateTimeField(blank=True, null=True)
+    transaction_id = models.CharField(max_length=200, blank=True, null=True)
+
+    created_at = models.DateTimeField(default=timezone.now)
+
+    # =========================
+    # AUTO PLAYER ID GENERATOR
+    # =========================
+    def save(self, *args, **kwargs):
+
+        if not self.player_id:
+
+            year = datetime.now().year
+
+            last_player = Player.objects.filter(
+                player_id__startswith=f"ECC-{year}"
+            ).order_by("id").last()
+
+            if last_player:
+                last_number = int(last_player.player_id.split("-")[-1])
+                new_number = last_number + 1
+            else:
+                new_number = 1
+
+            self.player_id = f"ECC-{year}-{new_number:03d}"
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.player_id} - {self.name}"
+    
     # =========================
     # PAYMENT DETAILS
     # =========================
     payment_status = models.BooleanField(default=False)
-    payment_amount = models.IntegerField(default=1000)
+    payment_amount = models.IntegerField(default=1)
 
     payment_date = models.DateTimeField(blank=True, null=True)
 

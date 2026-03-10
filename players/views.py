@@ -23,19 +23,42 @@ def home(request):
 # PLAYER REGISTER
 # =========================
 def register_player(request):
+
     if request.method == "POST":
+
         form = PlayerForm(request.POST, request.FILES)
+
+        mobile = request.POST.get("mobile")
+        email = request.POST.get("email")
+
+        # Duplicate Mobile Check
+        if Player.objects.filter(mobile=mobile).exists():
+            return render(request, "players/register.html", {
+                "form": form,
+                "error": "This mobile number is already registered!"
+            })
+
+        # Duplicate Email Check
+        if Player.objects.filter(email=email).exists():
+            return render(request, "players/register.html", {
+                "form": form,
+                "error": "This email is already registered!"
+            })
+
         if form.is_valid():
+
             player = form.save(commit=False)
+
             player.payment_status = False
+
             player.save()
 
             return redirect("payment_page", player_id=player.id)
+
     else:
         form = PlayerForm()
 
     return render(request, "players/register.html", {"form": form})
-
 
 # =========================
 # PAYMENT PAGE (Direct Razorpay Popup)

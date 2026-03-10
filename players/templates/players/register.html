@@ -14,6 +14,12 @@
 
   </div>
 
+  <!-- Error Message -->
+  {% if error %}
+  <div style="background:#ffefef; color:#b30000; padding:10px; border-radius:6px; margin-bottom:15px; font-weight:600;">
+      {{ error }}
+  </div>
+  {% endif %}
 
   <form method="POST" enctype="multipart/form-data" class="form-box">
 
@@ -23,6 +29,12 @@
       {{ form.as_p }}
     </div>
 
+    <!-- File upload instructions -->
+    <div style="font-size:13px; color:#666; margin-top:10px; margin-bottom:10px;">
+      📷 Photo must be <b>JPG format (10KB – 20KB)</b><br>
+      📄 Document must be <b>30KB – 50KB</b>
+    </div>
+
     <button type="submit" class="submit-btn">
       ✅ Register Player
     </button>
@@ -30,7 +42,6 @@
   </form>
 
 </div>
-
 
 <style>
 body{
