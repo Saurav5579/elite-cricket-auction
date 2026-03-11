@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-
+import dj_database_url
 # ================================
 # BASE DIRECTORY
 # ================================
@@ -89,10 +89,9 @@ WSGI_APPLICATION = 'auction_project.wsgi.application'
 # DATABASE
 # ================================
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        os.environ.get("DATABASE_URL")
+    )
 }
 
 
@@ -171,3 +170,4 @@ EMAIL_HOST_PASSWORD = "hkauftdymjnmtrvv"
 
 DEFAULT_FROM_EMAIL = "Elite Cricket Auction <yourgmail@gmail.com>"
 ADMIN_EMAIL = "ar783524@gmail.com"
+
