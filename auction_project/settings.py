@@ -168,7 +168,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "sauravrathore25102002@gmail.com"
 EMAIL_HOST_PASSWORD = "hkauftdymjnmtrvv"
 
-DEFAULT_FROM_EMAIL = "Elite Cricket Auction <yourgmail@gmail.com>"
+DEFAULT_FROM_EMAIL = "Elite Cricket Auction <sauravrathore25102002@gmail.com>"
 ADMIN_EMAIL = "ar783524@gmail.com"
 
 

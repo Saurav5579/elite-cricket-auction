@@ -92,7 +92,6 @@ def payment_page(request, player_id):
 # =========================
 # PAYMENT SUCCESS
 # =========================
-
 from django.shortcuts import redirect, get_object_or_404
 from django.utils import timezone
 from .models import Player
@@ -103,10 +102,9 @@ def payment_success(request, player_id):
 
     player = get_object_or_404(Player, id=player_id)
 
-    # Razorpay transaction id (agar URL me aa rahi ho)
     transaction_id = request.GET.get("payment_id")
 
-    # Update payment details
+    # Update payment status
     player.payment_status = True
     player.payment_date = timezone.now()
 
@@ -115,11 +113,13 @@ def payment_success(request, player_id):
 
     player.save()
 
-    # Send emails to player and admin
-    send_registration_emails(player)
+    # Send email safely (server crash nahi hoga)
+    try:
+        send_registration_emails(player)
+    except Exception as e:
+        print("Email sending failed:", e)
 
     return redirect("player_list")
-
 # =========================
 # PLAYER LIST
 # =========================
