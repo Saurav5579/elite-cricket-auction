@@ -116,7 +116,7 @@ def payment_success(request, player_id):
     # Email background me send hogi
     threading.Thread(target=send_registration_emails, args=(player,)).start()
 
-    return render(request, "payment_success.html", {"player": player})
+    return render(request, "players/payment_success.html", {"player": player})
 # =========================
 # PLAYER LIST
 # =========================
