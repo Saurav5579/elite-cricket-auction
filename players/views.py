@@ -89,6 +89,7 @@ def payment_page(request, player_id):
     }
 
     return render(request, "players/payment.html", context)
+
 # =========================
 # PAYMENT SUCCESS
 # =========================
@@ -96,7 +97,6 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import Player
 from .utils import send_registration_emails
-import threading
 
 
 def payment_success(request, player_id):
@@ -113,10 +113,14 @@ def payment_success(request, player_id):
 
     player.save()
 
-    # Email background me send hogi
-    threading.Thread(target=send_registration_emails, args=(player,)).start()
+    # Email send (direct)
+    try:
+        send_registration_emails(player)
+    except Exception as e:
+        print("Email error:", e)
 
     return render(request, "players/payment_success.html", {"player": player})
+
 # =========================
 # PLAYER LIST
 # =========================
