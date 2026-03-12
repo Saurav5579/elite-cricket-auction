@@ -96,6 +96,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import Player
 from .utils import send_registration_emails
+import threading
 
 
 def payment_success(request, player_id):
@@ -112,10 +113,8 @@ def payment_success(request, player_id):
 
     player.save()
 
-    try:
-        send_registration_emails(player)
-    except Exception as e:
-        print("Email error:", e)
+    # Email background me send hogi
+    threading.Thread(target=send_registration_emails, args=(player,)).start()
 
     return render(request, "payment_success.html", {"player": player})
 # =========================
