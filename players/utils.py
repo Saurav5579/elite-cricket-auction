@@ -4,17 +4,16 @@ from django.conf import settings
 
 def send_registration_emails(player):
 
-    try:
-        payment_status = "Paid" if player.payment_status else "Pending"
-        transaction_id = player.transaction_id if hasattr(player, "transaction_id") and player.transaction_id else "N/A"
+    payment_status = "Paid" if player.payment_status else "Pending"
+    transaction_id = player.transaction_id if getattr(player, "transaction_id", None) else "N/A"
 
-        subject = "🏏 Player Registration Successful - Elite Cricket Championship"
+    subject = "🏏 Player Registration Successful - Elite Cricket Championship"
 
-        # =========================
-        # EMAIL TO PLAYER
-        # =========================
+    # =========================
+    # EMAIL TO PLAYER
+    # =========================
 
-        message_player = f"""
+    message_player = f"""
 Hello {player.name},
 
 Your player registration has been successfully received.
@@ -44,11 +43,11 @@ Regards
 Elite Cricket Championship
 """
 
-        # =========================
-        # EMAIL TO ADMIN
-        # =========================
+    # =========================
+    # EMAIL TO ADMIN
+    # =========================
 
-        message_admin = f"""
+    message_admin = f"""
 New Player Registration Received
 
 ================================
@@ -71,25 +70,28 @@ Transaction ID : {transaction_id}
 Please review the player in the admin panel.
 """
 
-        # Send email to Player
+    try:
+
+        # Email to Player
         if player.email:
             send_mail(
                 subject,
                 message_player,
                 settings.DEFAULT_FROM_EMAIL,
                 [player.email],
-                fail_silently=True,
+                fail_silently=False
             )
 
-        # Send email to Admin
+        # Email to Admin
         send_mail(
             f"New Player Registered - {player.name}",
             message_admin,
             settings.DEFAULT_FROM_EMAIL,
             [settings.ADMIN_EMAIL],
-            fail_silently=True,
+            fail_silently=False
         )
 
+        print("Emails sent successfully")
+
     except Exception as e:
-        print("Email error:", e)
-        
+        print("Email sending error:", str(e))
