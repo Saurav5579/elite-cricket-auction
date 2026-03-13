@@ -123,3 +123,4 @@ class PlayerForm(forms.ModelForm):
             raise forms.ValidationError("Document size must be between 50KB and 500KB")
 
         return document
+    
