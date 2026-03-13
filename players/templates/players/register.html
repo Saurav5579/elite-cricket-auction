@@ -32,7 +32,7 @@
     <!-- File upload instructions -->
     <div style="font-size:13px; color:#666; margin-top:10px; margin-bottom:10px;">
       📷 Photo must be <b>JPG format (10KB – 20KB)</b><br>
-      📄 Document must be <b>30KB – 50KB</b>
+      📄 Document must be <b>50KB – 500KB</b>
     </div>
 
     <button type="submit" class="submit-btn">
@@ -498,6 +498,105 @@ padding:12px;
 }
 
 }
-</style>
+/* ===== INPUT TEXT FIX ===== */
 
+input,
+select,
+textarea {
+    color: #111 !important;
+    opacity: 1 !important;
+    font-weight: 500;
+}
+
+/* ===== PLACEHOLDER ===== */
+
+input::placeholder {
+    color: #777;
+    opacity: 1;
+}
+
+/* ===== FOCUS ===== */
+
+input:focus,
+select:focus,
+textarea:focus {
+    color: #111 !important;
+    background: #fff;
+}
+
+/* ===== FILE INPUT ===== */
+
+input[type="file"] {
+    color: #111;
+    font-weight: 500;
+}
+
+/* ===== REQUIRED FIELD ===== */
+
+input:required,
+select:required {
+    border: 2px solid #cbd5e1;
+}
+
+/* ===== INVALID FIELD ===== */
+
+input:invalid,
+select:invalid {
+    border: 2px solid #ff3b3b;
+}
+
+/* ===== DJANGO ERROR MESSAGE FIX ===== */
+
+.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 10px 0;
+}
+
+.errorlist li {
+    color: #ff3b3b !important;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 1 !important;
+}
+
+/* ===== FIELD ERROR HIGHLIGHT ===== */
+
+.error-field {
+    border: 2px solid #ff3b3b !important;
+    box-shadow: 0 0 5px rgba(255,0,0,0.4);
+}
+
+/* ===== CUSTOM ERROR TEXT ===== */
+
+.error-text {
+    color: #ff3b3b;
+    font-size: 13px;
+    margin-top: 3px;
+    font-weight: 500;
+}
+</style>
+<script>
+document.querySelector("form").addEventListener("submit", function(e){
+
+    let inputs = document.querySelectorAll("input, select");
+    let valid = true;
+
+    inputs.forEach(function(input){
+
+        input.classList.remove("error-field");
+
+        if(input.hasAttribute("required") && input.value.trim() === ""){
+            input.classList.add("error-field");
+            valid = false;
+        }
+
+    });
+
+    if(!valid){
+        e.preventDefault();
+    }
+
+});
+</script>
 {% endblock %}
