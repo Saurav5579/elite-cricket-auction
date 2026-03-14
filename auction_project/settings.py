@@ -156,18 +156,17 @@ AUCTION_ENABLED = False
 
 
 # ================================
-# EMAIL SETTINGS
+# EMAIL SETTINGS (BREVO API)
 # ================================
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+# Brevo API Key
+BREVO_API_KEY = "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"
 
-EMAIL_HOST_USER = "sauravrathore25102002@gmail.com"
-EMAIL_HOST_PASSWORD = "hkauftdymjnmtrvv"
+# Sender email (Brevo me verified hona chahiye)
+DEFAULT_FROM_EMAIL = "sauravrathore25102002@gmail.com"
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Admin email
 ADMIN_EMAIL = "ar783524@gmail.com"
+
+# Optional timeout
 EMAIL_TIMEOUT = 30

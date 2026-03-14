@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+import requests
 from django.conf import settings
 
 
@@ -72,24 +72,59 @@ Please review the player in the admin panel.
 
     try:
 
-        # Email to Player
-        if player.email:
-            send_mail(
-                subject,
-                message_player,
-                settings.DEFAULT_FROM_EMAIL,
-                [player.email],
-                fail_silently=False
-            )
+        url = "https://api.brevo.com/v3/smtp/email"
 
-        # Email to Admin
-        send_mail(
-            f"New Player Registered - {player.name}",
-            message_admin,
-            settings.DEFAULT_FROM_EMAIL,
-            [settings.ADMIN_EMAIL],
-            fail_silently=False
-        )
+        headers = {
+            "accept": "application/json",
+            "api-key": settings.BREVO_API_KEY,
+            "content-type": "application/json"
+        }
+
+        # =========================
+        # SEND EMAIL TO PLAYER
+        # =========================
+
+        if player.email:
+
+            data_player = {
+                "sender": {
+                    "name": "Elite Cricket Championship",
+                    "email": settings.DEFAULT_FROM_EMAIL
+                },
+                "to": [
+                    {
+                        "email": player.email
+                    }
+                ],
+                "subject": subject,
+                "textContent": message_player
+            }
+
+            response_player = requests.post(url, json=data_player, headers=headers)
+
+            print("Player email response:", response_player.status_code, response_player.text)
+
+        # =========================
+        # SEND EMAIL TO ADMIN
+        # =========================
+
+        data_admin = {
+            "sender": {
+                "name": "ECC Registration System",
+                "email": settings.DEFAULT_FROM_EMAIL
+            },
+            "to": [
+                {
+                    "email": settings.ADMIN_EMAIL
+                }
+            ],
+            "subject": f"New Player Registered - {player.name}",
+            "textContent": message_admin
+        }
+
+        response_admin = requests.post(url, json=data_admin, headers=headers)
+
+        print("Admin email response:", response_admin.status_code, response_admin.text)
 
         print("Emails sent successfully")
 
