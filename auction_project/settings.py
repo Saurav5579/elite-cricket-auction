@@ -160,7 +160,7 @@ AUCTION_ENABLED = False
 # ================================
 
 # Brevo API Key
-import os
+
 
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 
