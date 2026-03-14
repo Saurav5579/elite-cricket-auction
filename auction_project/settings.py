@@ -160,7 +160,9 @@ AUCTION_ENABLED = False
 # ================================
 
 # Brevo API Key
-BREVO_API_KEY = "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"
+import os
+
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 
 # Sender email (Brevo me verified hona chahiye)
 DEFAULT_FROM_EMAIL = "sauravrathore25102002@gmail.com"
