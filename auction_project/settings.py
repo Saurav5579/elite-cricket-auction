@@ -3,8 +3,8 @@ import os
 import dj_database_url
 from dotenv import load_dotenv
 
-
 load_dotenv()
+
 # ================================
 # BASE DIRECTORY
 # ================================
@@ -14,9 +14,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ================================
 # SECURITY SETTINGS
 # ================================
-SECRET_KEY = 'django-insecure-m+q9)g8wlok(1o46)qi2yi1j%xg-gm*g9q$3$-4--vii$cbq!2'
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-fallback-key")
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -38,11 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sitemaps',   # ✅ Add this
+    'django.contrib.sitemaps',
 
-    # Our Auction App
     'players',
 ]
+
+
 # ================================
 # MIDDLEWARE
 # ================================
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 # ================================
 # URL CONFIG
@@ -90,14 +93,15 @@ WSGI_APPLICATION = 'auction_project.wsgi.application'
 
 
 # ================================
-# DATABASE
+# DATABASE (Render Compatible)
 # ================================
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/db.sqlite3")
+    )
 }
+
+
 # ================================
 # PASSWORD VALIDATION
 # ================================
@@ -113,9 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # INTERNATIONALIZATION
 # ================================
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Kolkata'
-
 USE_I18N = True
 USE_TZ = True
 
@@ -123,7 +125,6 @@ USE_TZ = True
 # ================================
 # STATIC FILES
 # ================================
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -133,6 +134,8 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
 # ================================
 # MEDIA FILES
 # ================================
@@ -147,10 +150,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # ================================
-# RAZORPAY CONFIGURATION
+# RAZORPAY (SECURE)
 # ================================
-RAZORPAY_KEY_ID = "rzp_live_SNVYf99QxHGWX0"
-RAZORPAY_KEY_SECRET = "6rEzvzXnnrlvyftKpndNvtVA"
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
 
 # ================================
@@ -160,29 +163,16 @@ AUCTION_ENABLED = False
 
 
 # ================================
-# EMAIL SETTINGS (SENDGRID SMTP)
+# SENDGRID (API BASED - NO SMTP)
 # ================================
-
-import os
-
-# SendGrid API Key
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 
-# SMTP Configuration
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-# SendGrid uses "apikey" as username
-EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-
-# Sender email (⚠️ plain email only)
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
-# Admin email (⚠️ plain email only)
-ADMIN_EMAIL = "ar783524@gmail.com"
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 
-# Optional timeout
-EMAIL_TIMEOUT = 30
+
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
