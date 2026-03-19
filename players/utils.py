@@ -1,11 +1,11 @@
-import requests
+from django.core.mail import send_mail
 from django.conf import settings
 
 
 def send_registration_emails(player):
 
     payment_status = "Paid" if player.payment_status else "Pending"
-    transaction_id = player.transaction_id if getattr(player, "transaction_id", None) else "N/A"
+    transaction_id = getattr(player, "transaction_id", "N/A")
 
     subject = "🏏 Player Registration Successful - Elite Cricket Championship"
 
@@ -72,61 +72,32 @@ Please review the player in the admin panel.
 
     try:
 
-        url = "https://api.brevo.com/v3/smtp/email"
-
-        headers = {
-            "accept": "application/json",
-            "api-key": settings.BREVO_API_KEY,
-            "content-type": "application/json"
-        }
-
         # =========================
         # SEND EMAIL TO PLAYER
         # =========================
 
         if player.email:
-
-            data_player = {
-                "sender": {
-                    "name": "Elite Cricket Championship",
-                    "email": settings.DEFAULT_FROM_EMAIL
-                },
-                "to": [
-                    {
-                        "email": player.email
-                    }
-                ],
-                "subject": subject,
-                "textContent": message_player
-            }
-
-            response_player = requests.post(url, json=data_player, headers=headers)
-
-            print("Player email response:", response_player.status_code, response_player.text)
+            send_mail(
+                subject,
+                message_player,
+                settings.DEFAULT_FROM_EMAIL,
+                [player.email],
+                fail_silently=False,
+            )
 
         # =========================
         # SEND EMAIL TO ADMIN
         # =========================
 
-        data_admin = {
-            "sender": {
-                "name": "ECC Registration System",
-                "email": settings.DEFAULT_FROM_EMAIL
-            },
-            "to": [
-                {
-                    "email": settings.ADMIN_EMAIL
-                }
-            ],
-            "subject": f"New Player Registered - {player.name}",
-            "textContent": message_admin
-        }
+        send_mail(
+            f"New Player Registered - {player.name}",
+            message_admin,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.ADMIN_EMAIL],
+            fail_silently=False,
+        )
 
-        response_admin = requests.post(url, json=data_admin, headers=headers)
-
-        print("Admin email response:", response_admin.status_code, response_admin.text)
-
-        print("Emails sent successfully")
+        print("✅ Emails sent successfully")
 
     except Exception as e:
-        print("Email sending error:", str(e))
+        print("❌ Email sending error:", str(e))

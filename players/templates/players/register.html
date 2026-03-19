@@ -539,11 +539,12 @@ select:required {
 }
 
 /* ===== INVALID FIELD ===== */
-
-input:invalid,
-select:invalid {
+input:invalid:focus,
+select:invalid:focus {
     border: 2px solid #ff3b3b;
 }
+
+
 
 /* ===== DJANGO ERROR MESSAGE FIX ===== */
 
@@ -579,7 +580,7 @@ select:invalid {
 <script>
 document.querySelector("form").addEventListener("submit", function(e){
 
-    let inputs = document.querySelectorAll("input, select");
+    let inputs = this.querySelectorAll("input, select");
     let valid = true;
 
     inputs.forEach(function(input){

@@ -64,6 +64,13 @@ def register_player(request):
 # PAYMENT PAGE (Direct Razorpay Popup)
 # =========================
 
+import razorpay
+from django.shortcuts import render, get_object_or_404
+from django.conf import settings
+from django.utils import timezone
+from .models import Player
+from .utils import send_registration_emails
+
 
 def payment_page(request, player_id):
 
@@ -73,7 +80,7 @@ def payment_page(request, player_id):
         auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
     )
 
-    amount = player.payment_amount * 100
+    amount = int(player.payment_amount * 100)
 
     order = client.order.create({
         "amount": amount,
@@ -90,34 +97,58 @@ def payment_page(request, player_id):
 
     return render(request, "players/payment.html", context)
 
-# =========================
-# PAYMENT SUCCESS
-# =========================
-from django.shortcuts import render, get_object_or_404
-from django.utils import timezone
-from .models import Player
-from .utils import send_registration_emails
 
+# =========================
+# PAYMENT SUCCESS (SECURE)
+# =========================
 
 def payment_success(request, player_id):
 
     player = get_object_or_404(Player, id=player_id)
 
-    transaction_id = request.GET.get("payment_id")
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
 
-    player.payment_status = True
-    player.payment_date = timezone.now()
+    # Razorpay data (frontend se aayega)
+    razorpay_order_id = request.GET.get("razorpay_order_id")
+    razorpay_payment_id = request.GET.get("razorpay_payment_id")
+    razorpay_signature = request.GET.get("razorpay_signature")
 
-    if transaction_id:
-        player.transaction_id = transaction_id
-
-    player.save()
-
-    # Email send (direct)
     try:
-        send_registration_emails(player)
+        # =========================
+        # VERIFY PAYMENT SIGNATURE
+        # =========================
+        client.utility.verify_payment_signature({
+            "razorpay_order_id": razorpay_order_id,
+            "razorpay_payment_id": razorpay_payment_id,
+            "razorpay_signature": razorpay_signature
+        })
+
+        # =========================
+        # SAVE ONLY IF NOT ALREADY PAID
+        # =========================
+        if not player.payment_status:
+            player.payment_status = True
+            player.payment_date = timezone.now()
+            player.transaction_id = razorpay_payment_id
+            player.save()
+
+            # =========================
+            # SEND EMAIL ONCE
+            # =========================
+            try:
+                send_registration_emails(player)
+                print("✅ Email sent after payment")
+            except Exception as e:
+                print("❌ Email error:", e)
+
+        else:
+            print("⚠️ Payment already processed")
+
     except Exception as e:
-        print("Email error:", e)
+        print("❌ Payment verification failed:", e)
+        return render(request, "players/payment_failed.html")
 
     return render(request, "players/payment_success.html", {"player": player})
 

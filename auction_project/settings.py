@@ -1,6 +1,10 @@
 from pathlib import Path
 import os
 import dj_database_url
+from dotenv import load_dotenv
+
+
+load_dotenv()
 # ================================
 # BASE DIRECTORY
 # ================================
@@ -156,18 +160,28 @@ AUCTION_ENABLED = False
 
 
 # ================================
-# EMAIL SETTINGS (BREVO API)
+# EMAIL SETTINGS (SENDGRID SMTP)
 # ================================
 
-# Brevo API Key
+import os
 
+# SendGrid API Key
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 
-BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+# SMTP Configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
-# Sender email (Brevo me verified hona chahiye)
+# SendGrid uses "apikey" as username
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+
+# Sender email (⚠️ plain email only)
 DEFAULT_FROM_EMAIL = "sauravrathore25102002@gmail.com"
 
-# Admin email
+# Admin email (⚠️ plain email only)
 ADMIN_EMAIL = "ar783524@gmail.com"
 
 # Optional timeout
