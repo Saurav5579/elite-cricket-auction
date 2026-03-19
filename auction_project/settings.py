@@ -179,7 +179,7 @@ EMAIL_HOST_USER = "apikey"
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 
 # Sender email (⚠️ plain email only)
-DEFAULT_FROM_EMAIL = "sauravrathore25102002@gmail.com"
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
 # Admin email (⚠️ plain email only)
 ADMIN_EMAIL = "ar783524@gmail.com"
