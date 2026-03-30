@@ -88,39 +88,42 @@ class PlayerForm(forms.ModelForm):
 
 
     # =========================
-    # PHOTO VALIDATION
-    # =========================
-    def clean_photo(self):
+# PHOTO VALIDATION
+# =========================
+def clean_photo(self):
 
-        photo = self.cleaned_data.get("photo")
+    photo = self.cleaned_data.get("photo")
 
-        if not photo:
-            raise forms.ValidationError("Photo is required")
+    if not photo:
+        raise forms.ValidationError("Photo is required")
 
-        if not photo.name.lower().endswith((".jpg", ".jpeg")):
-            raise forms.ValidationError("Photo must be JPG format")
+    # ✅ Allow all image formats
+    if not photo.name.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+        raise forms.ValidationError("Only JPG, JPEG, PNG, WEBP images are allowed")
 
-        if photo.size < 10000 or photo.size > 20000:
-            raise forms.ValidationError("Photo size must be between 10KB and 20KB")
+    # ✅ Max size 5MB
+    if photo.size > 5 * 1024 * 1024:
+        raise forms.ValidationError("Photo size must be less than 5MB")
 
-        return photo
+    return photo
 
 
-    # =========================
-    # DOCUMENT VALIDATION
-    # =========================
-    def clean_document(self):
+# =========================
+# DOCUMENT VALIDATION
+# =========================
+def clean_document(self):
 
-        document = self.cleaned_data.get("document")
+    document = self.cleaned_data.get("document")
 
-        if not document:
-            raise forms.ValidationError("Document is required")
+    if not document:
+        raise forms.ValidationError("Document is required")
 
-        if not document.name.lower().endswith((".pdf", ".jpg", ".jpeg")):
-            raise forms.ValidationError("Document must be PDF or JPG format")
+    # ✅ Allow more formats
+    if not document.name.lower().endswith((".pdf", ".jpg", ".jpeg", ".png")):
+        raise forms.ValidationError("Document must be PDF, JPG, JPEG or PNG")
 
-        if document.size < 50000 or document.size > 500000:
-            raise forms.ValidationError("Document size must be between 50KB and 500KB")
+    # ✅ Max size 10MB
+    if document.size > 10 * 1024 * 1024:
+        raise forms.ValidationError("Document size must be less than 10MB")
 
-        return document
-    
+    return document
