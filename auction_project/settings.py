@@ -179,16 +179,3 @@ ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-try:
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser(
-            username="admin",
-            email="admin@gmail.com",
-            password="1234"
-        )
-except Exception as e:
-    print("Admin creation error:", e)
