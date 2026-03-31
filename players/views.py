@@ -430,12 +430,22 @@ def player_detail(request, id):
     return render(request, "players/player_detail.html", {
         "player": player
     })
-
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 def create_admin(request):
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser("admin", "ar783524@gmail.com", "1234")
-        return HttpResponse("Admin Created")
-    return HttpResponse("Admin already exists")
+    try:
+        user, created = User.objects.get_or_create(username="admin")
+
+        if created:
+            user.set_password("1234")
+            user.email = "admin@gmail.com"
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
+            return HttpResponse("Admin Created Successfully")
+
+        return HttpResponse("Admin already exists")
+
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}")
