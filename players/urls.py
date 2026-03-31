@@ -32,6 +32,5 @@ urlpatterns = [
 
     path("export-players/", views.export_players_excel, name="export_players"),
     path("terms/", views.terms, name="terms"),
-    path("create-admin/", views.create_admin),
 
 ]
