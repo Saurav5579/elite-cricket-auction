@@ -63,18 +63,19 @@ def register_player(request):
 # =========================
 # PAYMENT PAGE (Direct Razorpay Popup)
 # =========================
+
 import razorpay
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
-from django.utils import timezone
 from .models import Player
-from .utils import send_registration_emails
 
 
 def payment_page(request, player_id):
 
+    # ✅ Player fetch (error fix)
     player = get_object_or_404(Player, id=player_id)
 
+    # ✅ Razorpay client
     client = razorpay.Client(
         auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
     )
@@ -84,26 +85,29 @@ def payment_page(request, player_id):
     # =========================
     REGISTRATION_FEE = 700
 
-    final_amount = player.payment_amount if player.payment_amount else REGISTRATION_FEE
+    # 🔥 FORCE FIX (DB ka ₹1 ignore karega)
+    final_amount = REGISTRATION_FEE
 
-    amount = int(final_amount * 100)   # Razorpay paisa me leta hai
+    # Razorpay paise me leta hai
+    amount = int(final_amount * 100)
 
+    # ✅ Create order
     order = client.order.create({
         "amount": amount,
         "currency": "INR",
         "payment_capture": "1"
     })
 
+    # ✅ Context
     context = {
         "player": player,
         "razorpay_key": settings.RAZORPAY_KEY_ID,
         "amount": amount,
-        "display_amount": final_amount,   # 👈 frontend me ₹700 dikhane ke liye
+        "display_amount": final_amount,   # frontend me ₹700 dikhane ke liye
         "order_id": order["id"]
     }
 
     return render(request, "players/payment.html", context)
-
 # =========================
 # PAYMENT SUCCESS (FINAL SAFE VERSION)
 # =========================
