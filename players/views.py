@@ -84,7 +84,6 @@ def payment_page(request, player_id):
     # =========================
     REGISTRATION_FEE = 700
 
-    # Agar player.payment_amount empty ho ya 0 ho to 700 use karo
     final_amount = player.payment_amount if player.payment_amount else REGISTRATION_FEE
 
     amount = int(final_amount * 100)   # Razorpay paisa me leta hai
