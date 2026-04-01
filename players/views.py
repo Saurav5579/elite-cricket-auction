@@ -63,7 +63,6 @@ def register_player(request):
 # =========================
 # PAYMENT PAGE (Direct Razorpay Popup)
 # =========================
-
 import razorpay
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
@@ -80,7 +79,15 @@ def payment_page(request, player_id):
         auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
     )
 
-    amount = int(player.payment_amount * 100)
+    # =========================
+    # 🔥 FIXED REGISTRATION FEE
+    # =========================
+    REGISTRATION_FEE = 700
+
+    # Agar player.payment_amount empty ho ya 0 ho to 700 use karo
+    final_amount = player.payment_amount if player.payment_amount else REGISTRATION_FEE
+
+    amount = int(final_amount * 100)   # Razorpay paisa me leta hai
 
     order = client.order.create({
         "amount": amount,
@@ -92,11 +99,11 @@ def payment_page(request, player_id):
         "player": player,
         "razorpay_key": settings.RAZORPAY_KEY_ID,
         "amount": amount,
+        "display_amount": final_amount,   # 👈 frontend me ₹700 dikhane ke liye
         "order_id": order["id"]
     }
 
     return render(request, "players/payment.html", context)
-
 
 # =========================
 # PAYMENT SUCCESS (FINAL SAFE VERSION)

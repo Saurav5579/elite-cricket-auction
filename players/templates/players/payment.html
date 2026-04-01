@@ -299,13 +299,14 @@
             <p><strong>Base Price:</strong> <span>₹{{ player.base_price }}</span></p>
         </div>
 
+        <!-- ✅ FIXED FEE DISPLAY -->
         <div class="fee-box">
-            <h3>Registration Fee: ₹{{ player.payment_amount }}</h3>
+            <h3>Registration Fee: ₹{{ display_amount }}</h3>
         </div>
 
-        <!-- Direct Razorpay Button -->
+        <!-- ✅ FIXED BUTTON -->
         <button type="button" class="pay-btn" id="rzp-button">
-            🔒 Secure Payment ₹{{ player.payment_amount }}
+            🔒 Secure Payment ₹{{ display_amount }}
         </button>
 
     </div>
