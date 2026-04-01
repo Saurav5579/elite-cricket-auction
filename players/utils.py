@@ -5,8 +5,16 @@ from django.conf import settings
 
 def send_registration_emails(player):
 
+    # =========================
+    # SAFE VALUES (FIXED)
+    # =========================
     payment_status = "Paid" if player.payment_status else "Pending"
-    transaction_id = getattr(player, "transaction_id", "N/A")
+
+    # 🔥 FIXED AMOUNT (₹1 issue solved)
+    amount = settings.REGISTRATION_FEE
+
+    # 🔥 SAFE TRANSACTION ID
+    transaction_id = player.transaction_id if player.transaction_id else "N/A"
 
     try:
         sg = sendgrid.SendGridAPIClient(api_key=settings.SENDGRID_API_KEY)
@@ -20,6 +28,8 @@ def send_registration_emails(player):
                 to_emails=player.email,
                 subject="🏏 Registration Successful - Elite Cricket Championship",
                 html_content=f"""
+                <div style="font-family:Arial; background:#0b1220; padding:20px; color:#ffffff;">
+                
                 <h2>Hi {player.name},</h2>
 
                 <p>Your registration has been successfully completed ✅</p>
@@ -36,7 +46,7 @@ def send_registration_emails(player):
                 <h3>💳 Payment Details</h3>
                 <p>
                 <b>Status:</b> {payment_status} <br>
-                <b>Amount:</b> ₹{player.payment_amount} <br>
+                <b>Amount:</b> ₹{amount} <br>
                 <b>Transaction ID:</b> {transaction_id}
                 </p>
 
@@ -45,6 +55,8 @@ def send_registration_emails(player):
 
                 <br>
                 <p><b>Elite Cricket Championship</b></p>
+
+                </div>
                 """
             )
 
@@ -59,6 +71,8 @@ def send_registration_emails(player):
             to_emails=settings.ADMIN_EMAIL,
             subject=f"🚀 New Player Registered - {player.name}",
             html_content=f"""
+            <div style="font-family:Arial; background:#0b1220; padding:20px; color:#ffffff;">
+
             <h2>New Player Registration</h2>
 
             <p><b>Player ID:</b> {player.player_id}</p>
@@ -69,11 +83,13 @@ def send_registration_emails(player):
 
             <h3>Payment Info</h3>
             <p><b>Status:</b> {payment_status}</p>
-            <p><b>Amount:</b> ₹{player.payment_amount}</p>
+            <p><b>Amount:</b> ₹{amount}</p>
             <p><b>Transaction ID:</b> {transaction_id}</p>
 
             <br>
             <p>Check admin panel for more details.</p>
+
+            </div>
             """
         )
 
