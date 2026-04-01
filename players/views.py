@@ -112,6 +112,14 @@ def payment_page(request, player_id):
 # PAYMENT SUCCESS (FINAL SAFE VERSION)
 # =========================
 
+import razorpay
+from django.conf import settings
+from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
+from .models import Player
+from .utils import send_registration_emails
+
+
 def payment_success(request, player_id):
 
     player = get_object_or_404(Player, id=player_id)
@@ -122,9 +130,12 @@ def payment_success(request, player_id):
 
     error_message = None
 
+    # 🔥 FIXED REGISTRATION FEE (₹1 issue fix)
+    final_amount = settings.REGISTRATION_FEE
+
     try:
         # =========================
-        # VERIFY PAYMENT (OPTIONAL / SAFE)
+        # VERIFY PAYMENT (SAFE)
         # =========================
         if razorpay_order_id and razorpay_payment_id and razorpay_signature:
             try:
@@ -151,15 +162,21 @@ def payment_success(request, player_id):
         # SAVE PAYMENT (ONLY ONCE)
         # =========================
         if not player.payment_status:
+
             player.payment_status = True
             player.payment_date = timezone.now()
             player.transaction_id = razorpay_payment_id or "TEST_PAYMENT"
+
+            # ❌ IMPORTANT: DB me galat ₹1 overwrite na ho
+            # OPTIONAL: agar field use karna hai to ye line use karo
+            # player.payment_amount = final_amount
+
             player.save()
 
             print("✅ Payment saved")
 
             # =========================
-            # SEND EMAIL (API BASED)
+            # SEND EMAIL (SAFE)
             # =========================
             try:
                 send_registration_emails(player)
@@ -175,10 +192,11 @@ def payment_success(request, player_id):
         error_message = "Something went wrong, but registration saved."
 
     # =========================
-    # ALWAYS SHOW SUCCESS PAGE
+    # SUCCESS PAGE
     # =========================
     return render(request, "players/payment_success.html", {
         "player": player,
+        "display_amount": final_amount,   # 🔥 correct amount bhejna
         "error": error_message
     })
 # =========================

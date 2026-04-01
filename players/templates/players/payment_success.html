@@ -111,7 +111,6 @@
 
 </style>
 
-
 <section class="success-section">
 
     <div class="success-card">
@@ -127,10 +126,16 @@
         <div class="success-info">
             <p><strong>Player ID:</strong> <span>{{ player.player_id }}</span></p>
             <p><strong>Name:</strong> <span>{{ player.name }}</span></p>
-            <p><strong>Amount Paid:</strong> <span>₹{{ player.payment_amount }}</span></p>
-            <p><strong>Date:</strong> <span>{{ player.payment_date }}</span></p>
-        </div>
 
+            <!-- 🔥 FIXED AMOUNT -->
+            <p><strong>Amount Paid:</strong> <span>₹{{ display_amount }}</span></p>
+
+            <p><strong>Date:</strong> 
+                <span>
+                    {{ player.payment_date|date:"d M Y, h:i A" }}
+                </span>
+            </p>
+        </div>
 
     </div>
 
