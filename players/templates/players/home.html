@@ -145,21 +145,41 @@
 
 <!-- ================= TOP SOLD ================= -->
 <section class="sold-section">
-<h2 class="section-title">💰 Top Sold Players</h2>
 
-<div class="sold-grid">
-  <div class="sold-card">
-    <img src="{% static 'images/player1.jpg' %}">
-    <h4>Player A</h4>
-    <p>₹5.4L</p>
+  <!-- 🔥 CENTER HEADING -->
+  <div class="section-header">
+    <h2 class="section-title">🚀 Upcoming Franchise</h2>
+    <p class="section-subtitle">New Teams Coming Soon</p>
   </div>
 
-  <div class="sold-card">
-    <img src="{% static 'images/player2.jpg' %}">
-    <h4>Player B</h4>
-    <p>₹4.8L</p>
+  <div class="sold-grid">
+
+    <!-- Card 1 -->
+    <div class="sold-card">
+
+      <div class="coming-box">
+        ⏳ Coming Soon
+      </div>
+
+      <h4>New Team</h4>
+      <p>Launching Soon</p>
+
+    </div>
+
+    <!-- Card 2 -->
+    <div class="sold-card">
+
+      <div class="coming-box">
+        ⏳ Coming Soon
+      </div>
+
+      <h4>New Team</h4>
+      <p>Stay Tuned</p>
+
+    </div>
+
   </div>
-</div>
+
 </section>
 
 
@@ -229,41 +249,7 @@
 </section>
 
 
-<!-- ================= CONFETTI ================= -->
-<canvas id="confetti"></canvas>
 
-
-<script>
-function startConfetti(){
-  const canvas = document.getElementById("confetti");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const pieces = [];
-  for(let i=0;i<120;i++){
-    pieces.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height,
-      r: Math.random()*6+4,
-      c: `hsl(${Math.random()*360},100%,50%)`
-    });
-  }
-
-  let t=0;
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    pieces.forEach(p=>{
-      ctx.fillStyle=p.c;
-      ctx.fillRect(p.x,p.y,p.r,p.r);
-      p.y+=4;
-      if(p.y>canvas.height) p.y=0;
-    });
-    if(t++<120) requestAnimationFrame(draw);
-  }
-  draw();
-}
-</script>
 
 <style>
 
@@ -1237,31 +1223,141 @@ font-size:13px;
   margin-top:10px;
 }
 
-/* ================= SOLD PLAYERS ================= */
-
-.sold-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:24px;
-}
-
-.sold-card{
-  background:#020617;
-  padding:20px;
-  border-radius:18px;
-  text-align:center;
-  border:1px solid rgba(56,189,248,.25);
-}
-
-.sold-card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  border-radius:12px;
-}
+/* ================= UPCOMING FRANCHISE ================= */
 
 .sold-section{
   padding:70px 4%;
+}
+
+/* GRID */
+.sold-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
+}
+
+/* CARD */
+.sold-card{
+  background:linear-gradient(145deg,#020617,#020617);
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+  border:1px solid rgba(250,204,21,0.25);
+  transition:all .3s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+/* HOVER EFFECT */
+.sold-card:hover{
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 20px 50px rgba(0,0,0,0.7);
+  border-color:#facc15;
+}
+
+/* ================= COMING SOON BOX ================= */
+
+.coming-box{
+  height:160px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  margin-bottom:14px;
+
+  font-size:18px;
+  font-weight:600;
+  letter-spacing:1px;
+
+  background:rgba(255,255,255,0.03);
+  border:1px dashed rgba(250,204,21,0.5);
+
+  color:#facc15;
+
+  position:relative;
+  overflow:hidden;
+}
+
+/* GLOW ANIMATION */
+.coming-box::before{
+  content:"";
+  position:absolute;
+  width:200%;
+  height:200%;
+  top:-50%;
+  left:-50%;
+
+  background:radial-gradient(circle, rgba(250,204,21,0.15), transparent 70%);
+  animation:rotateGlow 6s linear infinite;
+}
+
+@keyframes rotateGlow{
+  from{
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* TEXT ABOVE GLOW */
+.coming-box{
+  z-index:1;
+}
+
+/* TITLE */
+.sold-card h4{
+  margin:8px 0 5px;
+  font-size:18px;
+  color:#ffffff;
+}
+
+/* SUBTEXT */
+.sold-card p{
+  font-size:14px;
+  font-weight:500;
+  color:#94a3b8;
+}
+/* ================= SECTION HEADER ================= */
+
+.section-header{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.section-title{
+  font-size:34px;
+  font-weight:800;
+  color:#ffffff;
+}
+
+.section-subtitle{
+  margin-top:8px;
+  font-size:14px;
+  color:#94a3b8;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:768px){
+
+  .sold-section{
+    padding:50px 5%;
+  }
+
+  .sold-grid{
+    gap:18px;
+  }
+
+  .sold-card{
+    padding:16px;
+  }
+
+  .coming-box{
+    height:130px;
+    font-size:15px;
+  }
+
 }
 /* ================= FULL WIDTH TROPHY SECTION ================= */
 
