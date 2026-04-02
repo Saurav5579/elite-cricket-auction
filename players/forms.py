@@ -62,7 +62,6 @@ class PlayerForm(forms.ModelForm):
     # MOBILE VALIDATION
     # =========================
     def clean_mobile(self):
-
         mobile = self.cleaned_data.get("mobile")
 
         if not mobile.isdigit() or len(mobile) != 10:
@@ -73,12 +72,10 @@ class PlayerForm(forms.ModelForm):
 
         return mobile
 
-
     # =========================
     # EMAIL VALIDATION
     # =========================
     def clean_email(self):
-
         email = self.cleaned_data.get("email")
 
         if Player.objects.filter(email=email).exists():
@@ -86,44 +83,36 @@ class PlayerForm(forms.ModelForm):
 
         return email
 
+    # =========================
+    # PHOTO VALIDATION ✅ FIXED
+    # =========================
+    def clean_photo(self):
+        photo = self.cleaned_data.get("photo")
+
+        if not photo:
+            raise forms.ValidationError("Photo is required")
+
+        if not photo.name.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+            raise forms.ValidationError("Only JPG, JPEG, PNG, WEBP images are allowed")
+
+        if photo.size > 5 * 1024 * 1024:
+            raise forms.ValidationError("Photo size must be less than 5MB")
+
+        return photo
 
     # =========================
-# PHOTO VALIDATION
-# =========================
-def clean_photo(self):
+    # DOCUMENT VALIDATION ✅ FIXED
+    # =========================
+    def clean_document(self):
+        document = self.cleaned_data.get("document")
 
-    photo = self.cleaned_data.get("photo")
+        if not document:
+            raise forms.ValidationError("Document is required")
 
-    if not photo:
-        raise forms.ValidationError("Photo is required")
+        if not document.name.lower().endswith((".pdf", ".jpg", ".jpeg", ".png")):
+            raise forms.ValidationError("Document must be PDF, JPG, JPEG or PNG")
 
-    # ✅ Allow all image formats
-    if not photo.name.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
-        raise forms.ValidationError("Only JPG, JPEG, PNG, WEBP images are allowed")
+        if document.size > 10 * 1024 * 1024:
+            raise forms.ValidationError("Document size must be less than 10MB")
 
-    # ✅ Max size 5MB
-    if photo.size > 5 * 1024 * 1024:
-        raise forms.ValidationError("Photo size must be less than 5MB")
-
-    return photo
-
-
-# =========================
-# DOCUMENT VALIDATION
-# =========================
-def clean_document(self):
-
-    document = self.cleaned_data.get("document")
-
-    if not document:
-        raise forms.ValidationError("Document is required")
-
-    # ✅ Allow more formats
-    if not document.name.lower().endswith((".pdf", ".jpg", ".jpeg", ".png")):
-        raise forms.ValidationError("Document must be PDF, JPG, JPEG or PNG")
-
-    # ✅ Max size 10MB
-    if document.size > 10 * 1024 * 1024:
-        raise forms.ValidationError("Document size must be less than 10MB")
-
-    return document
+        return document

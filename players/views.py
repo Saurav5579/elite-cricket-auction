@@ -31,20 +31,35 @@ def register_player(request):
         mobile = request.POST.get("mobile")
         email = request.POST.get("email")
 
-        # Duplicate Mobile Check
-        if Player.objects.filter(mobile=mobile).exists():
+        # =========================
+        # 🔥 RESUME REGISTRATION (IMPORTANT)
+        # =========================
+        existing_player = Player.objects.filter(
+            mobile=mobile,
+            payment_status=False
+        ).first()
+
+        if existing_player:
+            return redirect("payment_page", player_id=existing_player.id)
+
+        # =========================
+        # ✅ DUPLICATE CHECK (ONLY PAID USERS)
+        # =========================
+        if Player.objects.filter(mobile=mobile, payment_status=True).exists():
             return render(request, "players/register.html", {
                 "form": form,
                 "error": "This mobile number is already registered!"
             })
 
-        # Duplicate Email Check
-        if Player.objects.filter(email=email).exists():
+        if Player.objects.filter(email=email, payment_status=True).exists():
             return render(request, "players/register.html", {
                 "form": form,
                 "error": "This email is already registered!"
             })
 
+        # =========================
+        # ✅ SAVE NEW PLAYER
+        # =========================
         if form.is_valid():
 
             player = form.save(commit=False)

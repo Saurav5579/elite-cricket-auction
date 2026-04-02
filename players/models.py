@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from datetime import datetime
+from django.urls import reverse
 
 
 class Player(models.Model):
@@ -40,57 +40,21 @@ class Player(models.Model):
 
     base_price = models.IntegerField(default=500)
 
+    # ✅ IMAGE FIELD
     photo = models.ImageField(upload_to="players/photos/", blank=True, null=True)
+
+    # ✅ DOCUMENT FIELD
     document = models.FileField(upload_to="players/docs/", blank=True, null=True)
 
     agreed_terms = models.BooleanField(default=False)
 
-    payment_status = models.BooleanField(default=False)
-    payment_date = models.DateTimeField(blank=True, null=True)
-    transaction_id = models.CharField(max_length=200, blank=True, null=True)
-
-    created_at = models.DateTimeField(default=timezone.now)
-
-    # =========================
-    # AUTO PLAYER ID GENERATOR
-    # =========================
-    def save(self, *args, **kwargs):
-
-        if not self.player_id:
-
-            year = datetime.now().year
-
-            last_player = Player.objects.filter(
-                player_id__startswith=f"ECC-{year}"
-            ).order_by("id").last()
-
-            if last_player:
-                last_number = int(last_player.player_id.split("-")[-1])
-                new_number = last_number + 1
-            else:
-                new_number = 1
-
-            self.player_id = f"ECC-{year}-{new_number:03d}"
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.player_id} - {self.name}"
-    
     # =========================
     # PAYMENT DETAILS
     # =========================
     payment_status = models.BooleanField(default=False)
     payment_amount = models.IntegerField(default=1)
-
     payment_date = models.DateTimeField(blank=True, null=True)
-
-    # ⭐ NEW FIELD (Transaction ID)
-    transaction_id = models.CharField(
-        max_length=200,
-        blank=True,
-        null=True
-    )
+    transaction_id = models.CharField(max_length=200, blank=True, null=True)
 
     # =========================
     # AUCTION STATUS
@@ -98,11 +62,15 @@ class Player(models.Model):
     is_sold = models.BooleanField(default=False)
     sold_price = models.IntegerField(blank=True, null=True)
 
+    created_at = models.DateTimeField(default=timezone.now)
+
     # =========================
-    # AUTO PLAYER ID GENERATOR
+    # AUTO PLAYER ID (P001 FORMAT)
     # =========================
     def save(self, *args, **kwargs):
+
         if not self.player_id:
+
             last_player = Player.objects.order_by("id").last()
 
             if last_player and last_player.player_id:
@@ -115,12 +83,12 @@ class Player(models.Model):
 
         super().save(*args, **kwargs)
 
-def __str__(self):
-    return f"{self.player_id} - {self.name}"
+    def __str__(self):
+        return f"{self.player_id} - {self.name}"
 
-# ✅ Sitemap ke liye player page URL
-def get_absolute_url(self):
-    return reverse("player_detail", args=[self.id])
+    def get_absolute_url(self):
+        return reverse("player_detail", args=[self.id])
+
 
 # =========================
 # AUCTION MODEL
@@ -185,10 +153,7 @@ class SiteSetting(models.Model):
 
     auction_enabled = models.BooleanField(default=False)
 
-    auction_start_time = models.DateTimeField(
-        null=True,
-        blank=True
-    )
+    auction_start_time = models.DateTimeField(null=True, blank=True)
 
     maintenance_mode = models.BooleanField(default=False)
 

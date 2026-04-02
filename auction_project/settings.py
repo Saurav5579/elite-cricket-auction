@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import cloudinary
 import dj_database_url
 from dotenv import load_dotenv
 
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
 
     'players',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 
@@ -185,3 +188,12 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 # =========================
 REGISTRATION_FEE = 700
 
+
+
+cloudinary.config(
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key = os.getenv("CLOUDINARY_API_KEY"),
+    api_secret = os.getenv("CLOUDINARY_API_SECRET")
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from django.utils.html import format_html
 from .models import Player, Auction, Team
 
 
@@ -15,6 +16,7 @@ class PlayerAdmin(ImportExportModelAdmin):
     list_display = (
         "player_id",
         "name",
+        "player_photo",   # 🔥 IMAGE COLUMN
         "age",
         "role",
         "city",
@@ -39,6 +41,22 @@ class PlayerAdmin(ImportExportModelAdmin):
     )
 
     list_per_page = 25
+
+    # ======================
+    # IMAGE PREVIEW 🔥
+    # ======================
+    def player_photo(self, obj):
+        if obj.photo:
+            return format_html(
+                '<a href="{}" target="_blank">'
+                '<img src="{}" width="50" height="50" style="border-radius:6px;" />'
+                '</a>',
+                obj.photo.url,
+                obj.photo.url
+            )
+        return "No Image"
+
+    player_photo.short_description = "Photo"
 
 
 # ======================
