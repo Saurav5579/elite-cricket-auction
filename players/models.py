@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
-from cloudinary.models import CloudinaryField   # ✅ ADD THIS
 
 
 class Player(models.Model):
@@ -41,11 +40,11 @@ class Player(models.Model):
 
     base_price = models.IntegerField(default=500)
 
-    # 🔥 CLOUDINARY IMAGE
-    photo = CloudinaryField('image', blank=True, null=True)
+    # ✅ IMAGE FIELD
+    photo = models.ImageField(upload_to="players/photos/", blank=True, null=True)
 
-    # 🔥 CLOUDINARY DOCUMENT
-    document = CloudinaryField('raw', blank=True, null=True)
+    # ✅ DOCUMENT FIELD
+    document = models.FileField(upload_to="players/docs/", blank=True, null=True)
 
     agreed_terms = models.BooleanField(default=False)
 
@@ -65,10 +64,13 @@ class Player(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
 
-    # AUTO PLAYER ID
+    # =========================
+    # AUTO PLAYER ID (P001 FORMAT)
+    # =========================
     def save(self, *args, **kwargs):
 
         if not self.player_id:
+
             last_player = Player.objects.order_by("id").last()
 
             if last_player and last_player.player_id:
@@ -119,8 +121,11 @@ class Team(models.Model):
     total_budget = models.IntegerField(default=50000)
     remaining_budget = models.IntegerField(default=50000)
 
-    # 🔥 CLOUDINARY LOGO
-    logo = CloudinaryField('image', blank=True, null=True)
+    logo = models.ImageField(
+        upload_to="teams/logo/",
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return self.name
@@ -147,7 +152,9 @@ class Bid(models.Model):
 class SiteSetting(models.Model):
 
     auction_enabled = models.BooleanField(default=False)
+
     auction_start_time = models.DateTimeField(null=True, blank=True)
+
     maintenance_mode = models.BooleanField(default=False)
 
     def __str__(self):
