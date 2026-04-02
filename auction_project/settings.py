@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
 # APPLICATIONS
 # ================================
 INSTALLED_APPS = [
-    'import_export',
+    # 🔹 Django Default Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,11 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
 
-    'players',
+    # 🔹 Third Party Apps
+    'import_export',
     'cloudinary',
     'cloudinary_storage',
-]
 
+    # 🔹 Local Apps
+    'players',
+]
 
 # ================================
 # MIDDLEWARE
@@ -188,12 +191,16 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 # =========================
 REGISTRATION_FEE = 700
 
+# ================================
+# CLOUDINARY CONFIG
+# ================================
+import cloudinary.uploader
+import cloudinary.api
 
-
-cloudinary.config(
-    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key = os.getenv("CLOUDINARY_API_KEY"),
-    api_secret = os.getenv("CLOUDINARY_API_SECRET")
-)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'your_cloud_name',
+    'API_KEY': 'your_api_key',
+    'API_SECRET': 'your_api_secret',
+}
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
