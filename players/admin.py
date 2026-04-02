@@ -16,7 +16,7 @@ class PlayerAdmin(ImportExportModelAdmin):
     list_display = (
         "player_id",
         "name",
-        "player_photo",   # 🔥 IMAGE COLUMN
+         "preview_photo",   # 👈 ADD THIS
         "age",
         "role",
         "city",
@@ -42,22 +42,21 @@ class PlayerAdmin(ImportExportModelAdmin):
 
     list_per_page = 25
 
-    # ======================
-    # IMAGE PREVIEW 🔥
-    # ======================
-    def player_photo(self, obj):
-        if obj.photo:
-            return format_html(
-                '<a href="{}" target="_blank">'
-                '<img src="{}" width="50" height="50" style="border-radius:6px;" />'
-                '</a>',
-                obj.photo.url,
-                obj.photo.url
-            )
-        return "No Image"
+# ======================
+# IMAGE PREVIEW 🔥
+# ======================
+def preview_photo(self, obj):
+    if obj.photo:
+        return format_html(
+            '<a href="{}" target="_blank">'
+            '<img src="{}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #ddd;" />'
+            '</a>',
+            obj.photo.url,
+            obj.photo.url
+        )
+    return "No Image"
 
-    player_photo.short_description = "Photo"
-
+preview_photo.short_description = "Photo"
 
 # ======================
 # AUCTION ADMIN
