@@ -4,19 +4,15 @@ from django.utils.html import format_html
 from .models import Player, Auction, Team
 
 
-# ======================
-# PLAYER ADMIN
-# ======================
 @admin.register(Player)
 class PlayerAdmin(ImportExportModelAdmin):
 
-    # SERIAL ORDER
     ordering = ("player_id",)
 
     list_display = (
         "player_id",
         "name",
-         "preview_photo",   # 👈 ADD THIS
+        "preview_photo",   # ✅ ye use hoga
         "age",
         "role",
         "city",
@@ -42,21 +38,18 @@ class PlayerAdmin(ImportExportModelAdmin):
 
     list_per_page = 25
 
-# ======================
-# IMAGE PREVIEW 🔥
-# ======================
-def preview_photo(self, obj):
-    if obj.photo:
-        return format_html(
-            '<a href="{}" target="_blank">'
-            '<img src="{}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #ddd;" />'
-            '</a>',
-            obj.photo.url,
-            obj.photo.url
-        )
-    return "No Image"
+    # ======================
+    # IMAGE PREVIEW 🔥
+    # ======================
+    def preview_photo(self, obj):
+        if obj.photo:
+            return format_html(
+                '<img src="{}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;" />',
+                obj.photo.url
+            )
+        return "No Image"
 
-preview_photo.short_description = "Photo"
+    preview_photo.short_description = "Photo"
 
 # ======================
 # AUCTION ADMIN
