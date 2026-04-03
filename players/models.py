@@ -1,12 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
-from cloudinary.models import CloudinaryField   # ✅ IMPORTANT
 
 
-# =========================
-# PLAYER MODEL
-# =========================
 class Player(models.Model):
 
     ROLE_CHOICES = [
@@ -44,9 +40,11 @@ class Player(models.Model):
 
     base_price = models.IntegerField(default=500)
 
-    # ✅ CLOUDINARY (FIXED)
-    photo = CloudinaryField('image', blank=True, null=True)
-    document = CloudinaryField('raw', blank=True, null=True)
+    # ✅ IMAGE FIELD
+    photo = models.ImageField(upload_to="players/photos/", blank=True, null=True)
+
+    # ✅ DOCUMENT FIELD
+    document = models.FileField(upload_to="players/docs/", blank=True, null=True)
 
     agreed_terms = models.BooleanField(default=False)
 
@@ -67,16 +65,20 @@ class Player(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
     # =========================
-    # AUTO PLAYER ID
+    # AUTO PLAYER ID (P001 FORMAT)
     # =========================
     def save(self, *args, **kwargs):
+
         if not self.player_id:
+
             last_player = Player.objects.order_by("id").last()
+
             if last_player and last_player.player_id:
                 last_number = int(last_player.player_id[1:])
                 new_number = last_number + 1
             else:
                 new_number = 1
+
             self.player_id = f"P{new_number:03d}"
 
         super().save(*args, **kwargs)
@@ -84,9 +86,8 @@ class Player(models.Model):
     def __str__(self):
         return f"{self.player_id} - {self.name}"
 
-    # ⚠️ SAFE VERSION (ERROR NA AAYE)
     def get_absolute_url(self):
-        return "/"   # simple safe return (optional)
+        return reverse("player_detail", args=[self.id])
 
 
 # =========================
@@ -120,8 +121,11 @@ class Team(models.Model):
     total_budget = models.IntegerField(default=50000)
     remaining_budget = models.IntegerField(default=50000)
 
-    # ✅ CLOUDINARY (FIXED)
-    logo = CloudinaryField('image', blank=True, null=True)
+    logo = models.ImageField(
+        upload_to="teams/logo/",
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return self.name
