@@ -141,14 +141,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-
-# ================================
-# MEDIA FILES
-# ================================
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-
 # ================================
 # DEFAULT FIELD
 # ================================
@@ -203,11 +195,13 @@ import cloudinary.api
 # CLOUDINARY FINAL CONFIG
 # ================================
 
+import os
+import cloudinary
+
 CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
 CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY")
 CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET")
 
-# Debug (temporary)
 print("Cloudinary:", CLOUDINARY_CLOUD_NAME)
 
 cloudinary.config(
@@ -217,5 +211,4 @@ cloudinary.config(
     secure=True
 )
 
-# Storage (VERY IMPORTANT)
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
