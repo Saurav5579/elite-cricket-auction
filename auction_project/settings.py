@@ -33,21 +33,20 @@ ALLOWED_HOSTS = [
 # APPLICATIONS
 # ================================
 INSTALLED_APPS = [
-    # 🔹 Django Default Apps
+    'cloudinary',
+    'cloudinary_storage',
+    'import_export',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # optional
     'django.contrib.sitemaps',
 
-    # 🔹 Third Party Apps
-    'import_export',
-    'cloudinary',
-    'cloudinary_storage',
-
-    # 🔹 Local Apps
     'players',
 ]
 
