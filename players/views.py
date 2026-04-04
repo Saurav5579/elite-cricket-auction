@@ -98,7 +98,7 @@ def payment_page(request, player_id):
     # =========================
     # 🔥 FIXED REGISTRATION FEE
     # =========================
-    REGISTRATION_FEE = 700
+    REGISTRATION_FEE = 500
 
     # 🔥 FORCE FIX (DB ka ₹1 ignore karega)
     final_amount = REGISTRATION_FEE
@@ -118,7 +118,7 @@ def payment_page(request, player_id):
         "player": player,
         "razorpay_key": settings.RAZORPAY_KEY_ID,
         "amount": amount,
-        "display_amount": final_amount,   # frontend me ₹700 dikhane ke liye
+        "display_amount": final_amount,   
         "order_id": order["id"]
     }
 
