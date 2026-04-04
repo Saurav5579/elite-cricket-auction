@@ -34,7 +34,6 @@ ALLOWED_HOSTS = [
 # ================================
 INSTALLED_APPS = [
     'cloudinary',
-    'cloudinary_storage',
     'import_export',
 
     'django.contrib.admin',
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # optional
     'django.contrib.sitemaps',
 
     'players',
@@ -128,18 +126,24 @@ USE_TZ = True
 
 
 # ================================
-# STATIC FILES
+# STATIC FILES (FINAL CORRECT)
 # ================================
+
+import os
+
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
+# 🔥 collectstatic output
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# 🔥 static storage (safe)
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
+# 🔥 default finders (optional but safe)
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
 ]
-
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 # ================================
 # DEFAULT FIELD
 # ================================
@@ -186,3 +190,4 @@ REGISTRATION_FEE = 500
 # CLOUDINARY CONFIG (FINAL CLEAN)
 # ================================
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
