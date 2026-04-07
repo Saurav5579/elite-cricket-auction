@@ -39,9 +39,7 @@
 
     <!-- ACTION BUTTONS -->
     <div class="hero-buttons">
-
-     <a href="/register/" class="btn btn-primary" 
-   onclick="event.preventDefault(); return false;">
+<a href="/register/" class="btn btn-primary">
     Register Player
 </a>
 
@@ -96,6 +94,7 @@
 </section>
 
 <!-- ================= TEAMS ================= -->
+
 <section class="teams-section">
 
   <h2 class="section-title">🔥 Featured Teams</h2>
@@ -105,43 +104,50 @@
 
     <div class="team-card team-orange">
       <div class="logo-box">
-        <img src="{% static 'images/team1.png' %}" class="team-logo">
+        <img src="{% static 'images/team1.png' %}" class="team-logo" alt="Alpha Strikers">
       </div>
-      <h3>Mahadev XI</h3>
+      <h3>Alpha Strikers</h3>
     </div>
 
     <div class="team-card team-blue">
       <div class="logo-box">
-        <img src="{% static 'images/team2.png' %}" class="team-logo">
+        <img src="{% static 'images/team2.png' %}" class="team-logo" alt="RMJ Titans">
       </div>
       <h3>RMJ Titans</h3>
     </div>
 
     <div class="team-card team-red">
       <div class="logo-box">
-        <img src="{% static 'images/team3.png' %}" class="team-logo">
+        <img src="{% static 'images/team3.png' %}" class="team-logo" alt="Spartan Warriors">
       </div>
       <h3>Spartan Warriors</h3>
     </div>
 
     <div class="team-card team-green">
       <div class="logo-box">
-        <img src="{% static 'images/team4.png' %}" class="team-logo">
+        <img src="{% static 'images/team4.png' %}" class="team-logo" alt="Garuda XI">
       </div>
       <h3>Garuda XI</h3>
     </div>
 
     <div class="team-card team-purple">
       <div class="logo-box">
-        <img src="{% static 'images/team5.png' %}" class="team-logo">
+        <img src="{% static 'images/team5.png' %}" class="team-logo" alt="Night Hawks">
       </div>
       <h3>Night Hawks</h3>
+    </div>
+
+    <!-- 🔥 Fixed Rajgarh Team -->
+    <div class="team-card team-purple">
+      <div class="logo-box">
+        <img src="{% static 'images/12.webp' %}" class="team-logo" alt="Rajgarh Super Giants">
+      </div>
+      <h3>Rajgarh Super Giants</h3>
     </div>
 
   </div>
 
 </section>
-
 
 
 <!-- ================= TOP SOLD ================= -->
@@ -2137,6 +2143,19 @@ font-size:16px;
 font-size:12.5px;
 }
 
+}
+.logo-box {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 </style>
 

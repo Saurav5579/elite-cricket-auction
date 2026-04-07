@@ -133,13 +133,18 @@ import os
 
 STATIC_URL = '/static/'
 
-# 🔥 collectstatic output
+# 🔥 Django ko batata hai static files kaha se leni hai (IMPORTANT FIX)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'players/static'),
+]
+
+# 🔥 collectstatic output (production ke liye)
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# 🔥 static storage (safe)
+# 🔥 static storage (simple + safe)
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
-# 🔥 default finders (optional but safe)
+# 🔥 default finders (safe)
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -184,7 +189,7 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 # =========================
 # REGISTRATION FEE
 # =========================
-REGISTRATION_FEE = 500
+REGISTRATION_FEE = 600
 
 # ================================
 # CLOUDINARY CONFIG (FINAL WORKING)

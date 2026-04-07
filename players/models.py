@@ -38,7 +38,7 @@ class Player(models.Model):
     playing_style = models.CharField(max_length=30, choices=STYLE_CHOICES, blank=True, null=True)
     experience = models.CharField(max_length=30, choices=EXPERIENCE_CHOICES, blank=True, null=True)
 
-    base_price = models.IntegerField(default=500)
+    base_price = models.IntegerField(default=600)
 
     # ✅ IMAGE FIELD
     photo = models.ImageField(upload_to="players/photos/", blank=True, null=True)
