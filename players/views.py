@@ -123,61 +123,40 @@ def payment_page(request, player_id):
 
 
 # =========================
-# PAYMENT SUCCESS (FINAL SAFE VERSION)
+# PAYMENT SUCCESS (FINAL CLEAN VERSION)
 # =========================
-
-import razorpay
-from django.conf import settings
-from django.shortcuts import render, get_object_or_404
-from django.utils import timezone
-from .models import Player
-from .utils import send_registration_emails
-
 
 def payment_success(request, player_id):
 
     player = get_object_or_404(Player, id=player_id)
 
-    # ✅ Razorpay params (POST + fallback GET)
     razorpay_payment_id = request.POST.get("razorpay_payment_id") or request.GET.get("razorpay_payment_id")
     razorpay_order_id = request.POST.get("razorpay_order_id") or request.GET.get("razorpay_order_id")
     razorpay_signature = request.POST.get("razorpay_signature") or request.GET.get("razorpay_signature")
 
     error_message = None
-
-    # =========================
-    # 🔥 REGISTRATION FEE (GLOBAL)
-    # =========================
     final_amount = settings.REGISTRATION_FEE
 
     try:
         # =========================
-        # VERIFY PAYMENT (SECURE)
+        # VERIFY PAYMENT
         # =========================
         if razorpay_order_id and razorpay_payment_id and razorpay_signature:
-            try:
-                client = razorpay.Client(
-                    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-                )
 
-                client.utility.verify_payment_signature({
-                    "razorpay_order_id": razorpay_order_id,
-                    "razorpay_payment_id": razorpay_payment_id,
-                    "razorpay_signature": razorpay_signature
-                })
+            client = razorpay.Client(
+                auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+            )
 
-                print("✅ Payment verified")
+            client.utility.verify_payment_signature({
+                "razorpay_order_id": razorpay_order_id,
+                "razorpay_payment_id": razorpay_payment_id,
+                "razorpay_signature": razorpay_signature
+            })
 
-                payment_verified = True
-
-            except Exception as verify_error:
-                print("⚠️ Verification failed:", verify_error)
-                error_message = "Payment verification failed"
-                payment_verified = False
+            print("✅ Payment verified")
 
         else:
             print("⚠️ Missing Razorpay params")
-            payment_verified = False
 
         # =========================
         # SAVE PAYMENT (ONLY ONCE)
@@ -186,17 +165,10 @@ def payment_success(request, player_id):
 
             player.payment_status = True
             player.payment_date = timezone.now()
-
-            if payment_verified:
-                player.transaction_id = razorpay_payment_id
-            else:
-                player.transaction_id = "FAILED"
-
-            # OPTIONAL (agar use karna ho)
+            player.transaction_id = razorpay_payment_id or "FAILED"
             player.payment_amount = final_amount
 
             player.save()
-
             print("✅ Payment saved")
 
             # =========================
@@ -204,96 +176,15 @@ def payment_success(request, player_id):
             # =========================
             try:
                 send_registration_emails(player)
-                print("✅ Email sent successfully")
+                print("✅ Email sent")
             except Exception as email_error:
                 print("❌ Email error:", email_error)
 
         else:
-            print("⚠️ Payment already processed")
+            print("⚠️ Already paid user")
 
     except Exception as e:
-        print("❌ Unexpected error:", e)
-        error_message = "Something went wrong, but registration saved."
-
-    # =========================
-    # SUCCESS PAGE
-    # =========================
-    context = {
-        "player": player,
-        "amount": final_amount,
-        "transaction_id": player.transaction_id,
-        "error": error_message
-    }
-
-    return render(request, "players/payment_success.html", context)
-
-    player = get_object_or_404(Player, id=player_id)
-
-    razorpay_payment_id = request.POST.get("razorpay_payment_id") or request.GET.get("razorpay_payment_id")
-    razorpay_order_id = request.POST.get("razorpay_order_id") or request.GET.get("razorpay_order_id")
-    razorpay_signature = request.POST.get("razorpay_signature") or request.GET.get("razorpay_signature")
-
-    error_message = None
-
-    # 🔥 FIXED REGISTRATION FEE (₹1 issue fix)
-    final_amount = settings.REGISTRATION_FEE
-
-    try:
-        # =========================
-        # VERIFY PAYMENT (SAFE)
-        # =========================
-        if razorpay_order_id and razorpay_payment_id and razorpay_signature:
-            try:
-                client = razorpay.Client(
-                    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-                )
-
-                client.utility.verify_payment_signature({
-                    "razorpay_order_id": razorpay_order_id,
-                    "razorpay_payment_id": razorpay_payment_id,
-                    "razorpay_signature": razorpay_signature
-                })
-
-                print("✅ Payment verified")
-
-            except Exception as verify_error:
-                print("⚠️ Verification skipped:", verify_error)
-                error_message = "Verification skipped (test mode)"
-
-        else:
-            print("⚠️ Missing Razorpay params")
-
-        # =========================
-        # SAVE PAYMENT (ONLY ONCE)
-        # =========================
-        if not player.payment_status:
-
-            player.payment_status = True
-            player.payment_date = timezone.now()
-            player.transaction_id = razorpay_payment_id if razorpay_payment_id else "FAILED"
-
-            # ❌ IMPORTANT: DB me galat ₹1 overwrite na ho
-            # OPTIONAL: agar field use karna hai to ye line use karo
-            # player.payment_amount = final_amount
-
-            player.save()
-
-            print("✅ Payment saved")
-
-            # =========================
-            # SEND EMAIL (SAFE)
-            # =========================
-            try:
-                send_registration_emails(player)
-                print("✅ Email sent successfully")
-            except Exception as email_error:
-                print("❌ Email error:", email_error)
-
-        else:
-            print("⚠️ Payment already processed")
-
-    except Exception as e:
-        print("❌ Unexpected error:", e)
+        print("❌ Error:", e)
         error_message = "Something went wrong, but registration saved."
 
     # =========================
@@ -301,7 +192,8 @@ def payment_success(request, player_id):
     # =========================
     return render(request, "players/payment_success.html", {
         "player": player,
-        "display_amount": final_amount,   # 🔥 correct amount bhejna
+        "amount": final_amount,
+        "transaction_id": player.transaction_id,
         "error": error_message
     })
 # =========================
