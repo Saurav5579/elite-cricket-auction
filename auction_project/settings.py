@@ -189,7 +189,7 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 # =========================
 # REGISTRATION FEE
 # =========================
-REGISTRATION_FEE = 600
+REGISTRATION_FEE = 500
 
 # ================================
 # CLOUDINARY CONFIG (FINAL WORKING)
