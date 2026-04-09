@@ -144,7 +144,9 @@ def payment_success(request, player_id):
     razorpay_signature = request.POST.get("razorpay_signature") or request.GET.get("razorpay_signature")
 
     error_message = None
-    final_amount = settings.REGISTRATION_FEE
+
+    # ✅ Amount safe
+    final_amount = player.payment_amount if player.payment_amount else settings.REGISTRATION_FEE
 
     try:
         # =========================
@@ -174,10 +176,18 @@ def payment_success(request, player_id):
 
             player.payment_status = True
             player.payment_date = timezone.now()
-            player.transaction_id = razorpay_payment_id or "FAILED"
-            player.payment_amount = final_amount
 
+            # ✅ SAFE Transaction ID
+            if razorpay_payment_id:
+                player.transaction_id = razorpay_payment_id
+            elif razorpay_order_id:
+                player.transaction_id = razorpay_order_id
+            else:
+                player.transaction_id = "SUCCESS"
+
+            player.payment_amount = settings.REGISTRATION_FEE
             player.save()
+
             print("✅ Payment saved")
 
             # =========================
@@ -200,7 +210,7 @@ def payment_success(request, player_id):
     # =========================
     return render(request, "players/payment_success.html", {
         "player": player,
-        "amount": final_amount,
+        "amount": player.payment_amount,
         "transaction_id": player.transaction_id,
         "error": error_message
     })

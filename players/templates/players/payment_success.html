@@ -127,10 +127,14 @@
             <p><strong>Player ID:</strong> <span>{{ player.player_id }}</span></p>
             <p><strong>Name:</strong> <span>{{ player.name }}</span></p>
 
-            <!-- 🔥 FIXED AMOUNT -->
-            <p><strong>Amount Paid:</strong> <span>₹{{ display_amount }}</span></p>
+            <!-- ✅ FIXED AMOUNT (SAFE) -->
+            <p>
+                <strong>Amount Paid:</strong> 
+                <span>₹{{ amount|default:player.payment_amount|default:"0" }}</span>
+            </p>
 
-            <p><strong>Date:</strong> 
+            <p>
+                <strong>Date:</strong> 
                 <span>
                     {{ player.payment_date|date:"d M Y, h:i A" }}
                 </span>

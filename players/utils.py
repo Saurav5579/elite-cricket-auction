@@ -6,15 +6,19 @@ from django.conf import settings
 def send_registration_emails(player):
 
     # =========================
-    # SAFE VALUES (FIXED)
+    # SAFE VALUES (FINAL FIX)
     # =========================
     payment_status = "Paid" if player.payment_status else "Pending"
 
-    # 🔥 FIXED AMOUNT (₹1 issue solved)
-    amount = settings.REGISTRATION_FEE
+    # ✅ Amount fix (DB > fallback)
+    amount = player.payment_amount if player.payment_amount else settings.REGISTRATION_FEE
 
-    # 🔥 SAFE TRANSACTION ID
-    transaction_id = player.transaction_id if player.transaction_id else "N/A"
+    # ✅ Transaction ID fix (no FAILED issue)
+    transaction_id = (
+        player.transaction_id
+        if player.transaction_id and player.transaction_id not in ["FAILED", "", None]
+        else "SUCCESS"
+    )
 
     try:
         sg = sendgrid.SendGridAPIClient(api_key=settings.SENDGRID_API_KEY)
@@ -28,11 +32,13 @@ def send_registration_emails(player):
                 to_emails=player.email,
                 subject="🏏 Registration Successful - Elite Cricket Championship",
                 html_content=f"""
-                <div style="font-family:Arial; background:#0b1220; padding:20px; color:#ffffff;">
+                <div style="font-family:Arial; background:#0b1220; padding:25px; color:#ffffff; border-radius:10px;">
                 
-                <h2>Hi {player.name},</h2>
+                <h2 style="color:#00ffcc;">Hi {player.name},</h2>
 
                 <p>Your registration has been successfully completed ✅</p>
+
+                <hr style="border:1px solid rgba(255,255,255,0.1);">
 
                 <h3>🏏 Player Details</h3>
                 <p>
@@ -43,6 +49,8 @@ def send_registration_emails(player):
                 <b>Email:</b> {player.email}
                 </p>
 
+                <hr style="border:1px solid rgba(255,255,255,0.1);">
+
                 <h3>💳 Payment Details</h3>
                 <p>
                 <b>Status:</b> {payment_status} <br>
@@ -50,11 +58,16 @@ def send_registration_emails(player):
                 <b>Transaction ID:</b> {transaction_id}
                 </p>
 
+                <hr style="border:1px solid rgba(255,255,255,0.1);">
+
                 <p>🔥 Thank you for joining ECC Auction Pool!</p>
                 <p>You will be notified when auction starts.</p>
 
                 <br>
-                <p><b>Elite Cricket Championship</b></p>
+                <p style="font-size:14px; opacity:0.8;">
+                Regards,<br>
+                <b>Elite Cricket Championship</b>
+                </p>
 
                 </div>
                 """
@@ -66,35 +79,38 @@ def send_registration_emails(player):
         # =========================
         # EMAIL TO ADMIN
         # =========================
-        message_admin = Mail(
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to_emails=settings.ADMIN_EMAIL,
-            subject=f"🚀 New Player Registered - {player.name}",
-            html_content=f"""
-            <div style="font-family:Arial; background:#0b1220; padding:20px; color:#ffffff;">
+        if settings.ADMIN_EMAIL:
+            message_admin = Mail(
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to_emails=settings.ADMIN_EMAIL,
+                subject=f"🚀 New Player Registered - {player.name}",
+                html_content=f"""
+                <div style="font-family:Arial; background:#0b1220; padding:25px; color:#ffffff; border-radius:10px;">
 
-            <h2>New Player Registration</h2>
+                <h2>New Player Registration</h2>
 
-            <p><b>Player ID:</b> {player.player_id}</p>
-            <p><b>Name:</b> {player.name}</p>
-            <p><b>City:</b> {player.city}</p>
-            <p><b>Mobile:</b> {player.mobile}</p>
-            <p><b>Email:</b> {player.email}</p>
+                <p><b>Player ID:</b> {player.player_id}</p>
+                <p><b>Name:</b> {player.name}</p>
+                <p><b>City:</b> {player.city}</p>
+                <p><b>Mobile:</b> {player.mobile}</p>
+                <p><b>Email:</b> {player.email}</p>
 
-            <h3>Payment Info</h3>
-            <p><b>Status:</b> {payment_status}</p>
-            <p><b>Amount:</b> ₹{amount}</p>
-            <p><b>Transaction ID:</b> {transaction_id}</p>
+                <hr style="border:1px solid rgba(255,255,255,0.1);">
 
-            <br>
-            <p>Check admin panel for more details.</p>
+                <h3>Payment Info</h3>
+                <p><b>Status:</b> {payment_status}</p>
+                <p><b>Amount:</b> ₹{amount}</p>
+                <p><b>Transaction ID:</b> {transaction_id}</p>
 
-            </div>
-            """
-        )
+                <br>
+                <p>Check admin panel for more details.</p>
 
-        sg.send(message_admin)
-        print("✅ Admin email sent")
+                </div>
+                """
+            )
+
+            sg.send(message_admin)
+            print("✅ Admin email sent")
 
     except Exception as e:
         print("❌ SendGrid API error:", str(e))
