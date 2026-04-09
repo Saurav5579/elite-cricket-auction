@@ -126,6 +126,15 @@ def payment_page(request, player_id):
 # PAYMENT SUCCESS (FINAL CLEAN VERSION)
 # =========================
 
+from django.shortcuts import get_object_or_404, render
+from django.conf import settings
+from django.utils import timezone
+import razorpay
+import threading
+from .models import Player
+from .utils import send_registration_emails
+
+
 def payment_success(request, player_id):
 
     player = get_object_or_404(Player, id=player_id)
@@ -172,20 +181,19 @@ def payment_success(request, player_id):
             print("✅ Payment saved")
 
             # =========================
-            # SEND EMAIL
+            # SEND EMAIL (BACKGROUND)
             # =========================
             try:
-                send_registration_emails(player)
-                print("✅ Email sent")
-            except Exception as email_error:
-                print("❌ Email error:", email_error)
-
-        else:
-            print("⚠️ Already paid user")
+                threading.Thread(
+                    target=send_registration_emails,
+                    args=(player,)
+                ).start()
+            except Exception as e:
+                print("Email failed:", e)
 
     except Exception as e:
-        print("❌ Error:", e)
-        error_message = "Something went wrong, but registration saved."
+        print("❌ Payment verification error:", e)
+        error_message = "Payment verification failed. Please contact support."
 
     # =========================
     # SUCCESS PAGE
