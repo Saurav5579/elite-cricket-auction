@@ -474,17 +474,14 @@ def player_detail(request, id):
         "player": player
     })
 
-from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.contrib.auth import get_user_model
 
-def create_admin(request):
-    user, created = User.objects.get_or_create(username="admin")
+User = get_user_model()
 
-    if created:
-        user.set_password("1234")
-        user.is_staff = True
-        user.is_superuser = True
-        user.save()
-        return HttpResponse("Admin Created")
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser(
+        username='admin',
+        email='admin@gmail.com',
+        password='admin123'
+    )
 
-    return HttpResponse("Already exists")
