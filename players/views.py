@@ -474,7 +474,6 @@ def player_detail(request, id):
         "player": player
     })
 
-
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 
@@ -487,6 +486,6 @@ def create_admin(request):
             email='admin@gmail.com',
             password='admin123'
         )
-        return HttpResponse("Admin Created Successfully ✅")
+        return HttpResponse("Admin Created")
 
-    return HttpResponse("Admin Already Exists 👍")
+    return HttpResponse("Already Exists")
