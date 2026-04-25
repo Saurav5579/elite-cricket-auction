@@ -7,7 +7,9 @@
 <div class="scoreboard coming">
   <span class="sb-icon">🏏</span>
   <span class="sb-text">ECC Auction Edition 2</span>
-  <span class="soon-tag">COMING SOON</span>
+
+  <!-- 🔥 TIMER -->
+  <span id="auction-timer" class="timer-box">Loading...</span>
 </div>
 
 
@@ -94,7 +96,6 @@
 </section>
 
 <!-- ================= TEAMS ================= -->
-
 <section class="teams-section">
 
   <h2 class="section-title">🔥 Featured Teams</h2>
@@ -103,52 +104,62 @@
   <div class="teams-grid">
 
     <div class="team-card team-orange">
-      <div class="logo-box">
-        <img src="{% static 'images/team1.png' %}" class="team-logo" alt="Alpha Strikers">
-      </div>
-      <h3>Alpha Strikers</h3>
+      <a href="https://www.eccauction.online/team/1/">
+        <div class="logo-box">
+          <img src="{% static 'images/team1.png' %}" class="team-logo" alt="Alpha Strikers">
+        </div>
+        <h3>Alpha Strikers</h3>
+      </a>
     </div>
 
     <div class="team-card team-blue">
-      <div class="logo-box">
-        <img src="{% static 'images/team2.png' %}" class="team-logo" alt="RMJ Titans">
-      </div>
-      <h3>RMJ Titans</h3>
+      <a href="https://www.eccauction.online/team/2/">
+        <div class="logo-box">
+          <img src="{% static 'images/team2.png' %}" class="team-logo" alt="Raj 11">
+        </div>
+        <h3>Raj 11</h3>
+      </a>
     </div>
 
     <div class="team-card team-red">
-      <div class="logo-box">
-        <img src="{% static 'images/team3.png' %}" class="team-logo" alt="Spartan Warriors">
-      </div>
-      <h3>Spartan Warriors</h3>
+      <a href="https://www.eccauction.online/team/3/">
+        <div class="logo-box">
+          <img src="{% static 'images/team3.png' %}" class="team-logo" alt="Spartan Warriors">
+        </div>
+        <h3>Spartan Warriors</h3>
+      </a>
     </div>
 
     <div class="team-card team-green">
-      <div class="logo-box">
-        <img src="{% static 'images/team4.png' %}" class="team-logo" alt="Garuda XI">
-      </div>
-      <h3>Garuda XI</h3>
+      <a href="https://www.eccauction.online/team/4/">
+        <div class="logo-box">
+          <img src="{% static 'images/team4.png' %}" class="team-logo" alt="Garuda XI">
+        </div>
+        <h3>Garuda XI</h3>
+      </a>
     </div>
 
     <div class="team-card team-purple">
-      <div class="logo-box">
-        <img src="{% static 'images/team5.png' %}" class="team-logo" alt="Night Hawks">
-      </div>
-      <h3>Night Hawks</h3>
+      <a href="https://www.eccauction.online/team/5/">
+        <div class="logo-box">
+          <img src="{% static 'images/team5.png' %}" class="team-logo" alt="Night Hawks">
+        </div>
+        <h3>Night Hawks</h3>
+      </a>
     </div>
 
-    <!-- 🔥 Fixed Rajgarh Team -->
     <div class="team-card team-purple">
-      <div class="logo-box">
-        <img src="{% static 'images/team6.png' %}" class="team-logo" alt="Rajgarh Super Giants">
-      </div>
-      <h3>Rajgarh Super Giants</h3>
+      <a href="https://www.eccauction.online/team/6/">
+        <div class="logo-box">
+          <img src="{% static 'images/team6.png' %}" class="team-logo" alt="Rajgarh Super Giants">
+        </div>
+        <h3>Rajgarh Super Giants</h3>
+      </a>
     </div>
 
   </div>
 
 </section>
-
 
 <!-- ================= TOP SOLD ================= -->
 <section class="sold-section">
@@ -288,80 +299,77 @@ body::after{
 body{
 caret-color: transparent;
 }
-/* ================= SCOREBOARD — COMING SOON ================= */
+/* ================= SCOREBOARD CENTER FIX ================= */
 
-.scoreboard.coming{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  flex-wrap:wrap;
+.scoreboard{
+  display: flex;
+  justify-content: center;   /* 🔥 center sab kuch */
+  align-items: center;
+  gap: 12px;
 
-  background:linear-gradient(90deg,#0f172a,#111827,#0f172a);
-  border-top:3px solid #f59e0b;
-  border-bottom:3px solid #f59e0b;
+  width: 100%;
+  text-align: center;
+  flex-wrap: wrap;   /* mobile ke liye */
+}
 
-  padding:14px 10px;
+
+/* ================= TIMER BOX (UPDATED) ================= */
+
+.timer-box{
+  padding:7px 18px;
+  border-radius:999px;   /* 🔥 full round */
+
+
+  color:#ffffff;   /* 🔥 WHITE TEXT */
+
+  font-size:14px;
   font-weight:900;
-  letter-spacing:.8px;
-  text-align:center;
+  letter-spacing:.5px;
+
+
+}
+/* 🔥 LIVE STATE */
+.timer-live{
+  background:linear-gradient(135deg,#dc2626,#ef4444,#dc2626);
+  color:#fff;
 
   box-shadow:
-    0 0 24px rgba(245,158,11,.25),
-    inset 0 0 18px rgba(245,158,11,.15);
+    0 0 15px rgba(239,68,68,.7),
+    0 0 35px rgba(239,68,68,.4);
 
-  animation:sbPulse 2.4s ease-in-out infinite;
+  border:1px solid rgba(255,255,255,0.2);
+
+  animation:liveBlink 1s infinite;
+}
+/* ================= ANIMATIONS ================= */
+
+@keyframes timerGlow{
+  50%{
+    box-shadow:
+      0 0 22px rgba(34,197,94,.9),
+      inset 0 0 14px rgba(255,255,255,.4);
+  }
 }
 
-.sb-icon{
-  font-size:20px;
-  filter: drop-shadow(0 0 6px rgba(255,120,0,.6));
+@keyframes liveBlink{
+  50%{
+    opacity:.7;
+    transform:scale(1.05);
+  }
 }
 
-.sb-text{
-  font-size:18px;
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:768px){
+  .timer-box{
+    font-size:12px;
+    padding:6px 12px;
+  }
+
+  .scoreboard{
+    gap:6px;
+  }
 }
-
-.soon-tag{
-  background:linear-gradient(135deg,#f59e0b,#fbbf24);
-  color:#111;
-  padding:6px 12px;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:900;
-  box-shadow:0 0 14px rgba(251,191,36,.55);
-  animation:tagBlink 1.6s ease-in-out infinite;
-}
-
-@keyframes sbPulse{
-  50%{box-shadow:
-      0 0 34px rgba(245,158,11,.45),
-      inset 0 0 24px rgba(245,158,11,.25);}
-}
-
-@keyframes tagBlink{
-  50%{opacity:.65;}
-}
-
-
-/* ================= (OPTIONAL) LIVE SCORE BAR — DISABLED STYLE ================= */
-/* Agar coming soon mode me score bar bhi dikhani hai to ye use karo */
-
-.score-bar{
-  background:linear-gradient(90deg,#334155,#475569);
-  text-align:center;
-  font-weight:800;
-  padding:8px;
-  opacity:.85;
-}
-
-.score-bar span{
-  background:#ef4444;
-  padding:3px 8px;
-  border-radius:6px;
-  margin-right:10px;
-}
-
 /* ================= HERO ================= */
 
 .hero-wrap{
@@ -1229,7 +1237,13 @@ font-size:13px;
   font-size:18px;
   margin-top:10px;
 }
-
+.team-card a,
+.team-card a:visited,
+.team-card a:hover,
+.team-card a:active {
+  color: white !important;
+  text-decoration: none !important;
+}
 /* ================= UPCOMING FRANCHISE ================= */
 
 .sold-section{
@@ -2158,7 +2172,53 @@ font-size:12.5px;
   object-fit: contain;
 }
 </style>
+<script>
+function startCountdown() {
 
+    const target = new Date("2026-04-26T11:00:00+05:30").getTime();
+    const timer = document.getElementById("auction-timer");
+
+    function format(num){
+        return num < 10 ? "0" + num : num;
+    }
+
+    const interval = setInterval(() => {
+
+        const now = new Date().getTime();
+        const diff = target - now;
+
+        // 🔥 जब टाइम खत्म हो जाए
+        if (diff <= 0) {
+            clearInterval(interval);
+
+            timer.innerHTML = "🔥 LIVE NOW";
+            timer.classList.add("timer-live");
+
+            // 🔥 OPTIONAL: auto redirect
+            // setTimeout(() => {
+            //     window.location.href = "/auction/";
+            // }, 3000);
+
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        timer.innerHTML =
+            format(days) + "d : " +
+            format(hours) + "h : " +
+            format(minutes) + "m : " +
+            format(seconds) + "s";
+
+    }, 1000);
+}
+
+// 🔥 ensure DOM loaded
+document.addEventListener("DOMContentLoaded", startCountdown);
+</script>
 
 {% endblock %}
 
