@@ -58,8 +58,7 @@
 <!-- ================= AUCTION TICKER ================= -->
 <div class="ticker">
   <div class="ticker-track">
-   🔥 ECC Elite Championship • 💥 Edition 2 • ⚡ Auction Coming Soon • 🏏 Get Ready for the Ultimate Battle
-
+    🔴 LIVE • 🔥 ECC Elite Championship • 💥 Edition 2 • ⚡ Auction LIVE NOW • 🏏 Bidding Started • 🎯 Stay Tuned
   </div>
 </div>
 
@@ -751,8 +750,10 @@ padding:12px;
   background:#020617;
   border-block:1px solid rgba(56,189,248,.3);
   padding:8px 0;
+  position: relative;
 }
 
+/* 🔥 Moving Track */
 .ticker-track{
   display:inline-block;
   white-space:nowrap;
@@ -761,10 +762,12 @@ padding:12px;
   color:#38bdf8;
   font-weight:800;
   letter-spacing:.4px;
+
+  /* 🔴 LIVE glow */
+  text-shadow: 0 0 8px rgba(255,0,0,0.8);
 }
 
-/* scrolling animation */
-
+/* 🔥 scrolling animation (smooth) */
 @keyframes tickerMove{
   0%{
     transform:translateX(0);
@@ -772,6 +775,19 @@ padding:12px;
   100%{
     transform:translateX(-100%);
   }
+}
+
+/* 🔴 LIVE blinking effect (text me use karne ke liye class) */
+.live-text{
+  color:#ff3b3b;
+  animation: liveBlink 1s ease-in-out infinite;
+}
+
+/* 🔥 blink animation */
+@keyframes liveBlink{
+  0%{ opacity:1; }
+  50%{ opacity:0.3; }
+  100%{ opacity:1; }
 }
 
 
@@ -789,8 +805,9 @@ padding:12px;
   font-size:13px;
   animation:tickerMove 16s linear infinite; /* faster on mobile */
 }
-
 }
+
+
 /* ================= CHAMPION FULL WIDTH SECTION ================= */
 
 .champion-section{
