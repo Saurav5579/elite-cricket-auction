@@ -801,6 +801,64 @@ pointer-events:none;
 cursor:not-allowed;
 opacity:0.6; /* optional */
 }
+
+.auction-badge {
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  background: rgba(255,255,255,0.08);
+  color: #ffd700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 🔴 Live Mode */
+.auction-badge.live {
+  background: linear-gradient(45deg, #ff3b3b, #ff0000);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255,0,0,0.6);
+  animation: pulseGlow 1.5s ease-in-out infinite;
+}
+
+/* 🔴 Blinking Dot (Better + Smooth) */
+.auction-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  animation: blinkDot 1s ease-in-out infinite;
+}
+
+/* 🔥 Dot Animation */
+@keyframes blinkDot {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 🔥 Badge Glow Pulse */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(255,0,0,0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255,0,0,1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255,0,0,0.5);
+  }
+}
 </style>
 
 
@@ -828,11 +886,10 @@ opacity:0.6; /* optional */
 
 
   <!-- CENTER : Auction Badge -->
-
-  <div class="auction-badge">
-    <span class="auction-dot"></span>
-    ECC Auction — Coming Soon
-  </div>
+<div class="auction-badge live">
+  <span class="auction-dot"></span>
+  ECC Auction — LIVE NOW
+</div>
 
 
   <!-- RIGHT MENU -->
@@ -1016,6 +1073,16 @@ dropbtn.addEventListener("click", function(e){
 
 });
 
+</script>
+<script>
+  const isLive = true; // 🔥 change this
+
+  const badge = document.querySelector(".auction-badge");
+
+  if (isLive) {
+    badge.classList.add("live");
+    badge.innerHTML = '<span class="auction-dot"></span> ECC Auction — LIVE NOW';
+  }
 </script>
 </body>
 </html>
